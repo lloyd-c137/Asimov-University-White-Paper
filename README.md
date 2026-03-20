@@ -176,4 +176,6 @@ AsimovUniversity/
 
 ## License
 
-MIT License
+Copyright © 2025 Asimov University. All rights reserved.
+
+This is a private project. No license is granted to use, copy, modify, or distribute this software. See [LICENSE](LICENSE) for details.

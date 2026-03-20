@@ -19,15 +19,16 @@ Asimov University is designed to be a hub for AI education, research, and innova
 - **Styling:** Tailwind CSS 4
 - **Routing:** React Router DOM
 - **Animation:** Framer Motion
-- **Backend:** Node.js, Express
-- **Database:** SQLite (sql.js)
+- **Backend (Local):** Node.js, Express, SQLite (sql.js)
+- **Backend (Production):** Cloudflare Workers, Cloudflare D1
 
 ### Prerequisites
 
 - Node.js 18+ installed
 - npm or yarn package manager
+- For Cloudflare deployment: Wrangler CLI (`npm install -g wrangler`)
 
-### Installation & Running
+### Installation & Running (Local Development)
 
 #### 1. Clone the Repository
 ```bash
@@ -38,22 +39,79 @@ cd AsimovUniversity
 #### 2. Install Dependencies
 ```bash
 npm install
+cd server && npm install && cd ..
 ```
 
-#### 3. Start the Backend Server
+#### 3. Configure Environment
+```bash
+cp .env.example .env
+cp server/.env.example server/.env
+```
+
+#### 4. Start the Backend Server
 Open a terminal and run:
 ```bash
 cd server
-node index.js
+npm start
 ```
 The backend API server will start on `http://localhost:3001`
 
-#### 4. Start the Frontend Development Server
+#### 5. Start the Frontend Development Server
 Open another terminal and run:
 ```bash
 npm run dev
 ```
 The frontend will be available at `http://localhost:5173`
+
+### Deployment to Cloudflare Pages
+
+#### Frontend Deployment
+
+1. Build the frontend:
+```bash
+npm run build
+```
+
+2. Deploy to Cloudflare Pages:
+```bash
+wrangler pages deploy dist
+```
+
+Or connect your GitHub repository to Cloudflare Pages for automatic deployments.
+
+#### Backend (Workers) Deployment
+
+1. Navigate to the worker directory:
+```bash
+cd worker
+npm install
+```
+
+2. Create a D1 database:
+```bash
+wrangler d1 create asimov-university
+```
+
+3. Update `worker/wrangler.toml` with your database ID.
+
+4. Run migrations:
+```bash
+wrangler d1 execute asimov-university --file=./schema.sql
+```
+
+5. Set secrets:
+```bash
+wrangler secret put AI_API_URL
+wrangler secret put AI_API_KEY
+wrangler secret put AI_MODEL
+```
+
+6. Deploy the worker:
+```bash
+npm run deploy
+```
+
+7. Update `public/_redirects` with your worker URL.
 
 ### Project Structure
 
@@ -67,9 +125,17 @@ AsimovUniversity/
 │   │   └── Mailbox.tsx     # Simulated mailbox
 │   ├── components/         # Reusable components
 │   └── assets/             # Static assets
-├── server/                 # Backend source code
+├── server/                 # Local backend (Node.js)
 │   ├── index.js            # Express server
 │   └── database.js         # SQLite database setup
+├── worker/                 # Cloudflare Workers backend
+│   ├── src/                # Worker source code
+│   │   ├── index.ts        # Main worker entry
+│   │   └── handlers/       # API handlers
+│   ├── schema.sql          # D1 database schema
+│   └── wrangler.toml       # Worker configuration
+├── public/                 # Static public assets
+│   └── _redirects          # Cloudflare Pages redirects
 └── README.md
 ```
 
@@ -84,8 +150,8 @@ AsimovUniversity/
 ### Admin Access
 
 Access the admin dashboard at `/admin` with these credentials:
-- Username: `admin`
-- Password: `asimov2024`
+- Username: `asimov2025`
+- Password: `asimov2025`
 
 ---
 
@@ -104,15 +170,16 @@ Access the admin dashboard at `/admin` with these credentials:
 - **样式:** Tailwind CSS 4
 - **路由:** React Router DOM
 - **动画:** Framer Motion
-- **后端:** Node.js, Express
-- **数据库:** SQLite (sql.js)
+- **后端（本地）:** Node.js, Express, SQLite (sql.js)
+- **后端（生产）:** Cloudflare Workers, Cloudflare D1
 
 ### 环境要求
 
 - 已安装 Node.js 18+
 - npm 或 yarn 包管理器
+- Cloudflare 部署需要: Wrangler CLI (`npm install -g wrangler`)
 
-### 安装与运行
+### 安装与运行（本地开发）
 
 #### 1. 克隆仓库
 ```bash
@@ -123,22 +190,79 @@ cd AsimovUniversity
 #### 2. 安装依赖
 ```bash
 npm install
+cd server && npm install && cd ..
 ```
 
-#### 3. 启动后端服务器
+#### 3. 配置环境变量
+```bash
+cp .env.example .env
+cp server/.env.example server/.env
+```
+
+#### 4. 启动后端服务器
 打开一个终端，运行：
 ```bash
 cd server
-node index.js
+npm start
 ```
 后端API服务器将在 `http://localhost:3001` 启动
 
-#### 4. 启动前端开发服务器
+#### 5. 启动前端开发服务器
 打开另一个终端，运行：
 ```bash
 npm run dev
 ```
 前端应用将在 `http://localhost:5173` 可用
+
+### 部署到 Cloudflare Pages
+
+#### 前端部署
+
+1. 构建前端：
+```bash
+npm run build
+```
+
+2. 部署到 Cloudflare Pages：
+```bash
+wrangler pages deploy dist
+```
+
+或者将 GitHub 仓库连接到 Cloudflare Pages 实现自动部署。
+
+#### 后端（Workers）部署
+
+1. 进入 worker 目录：
+```bash
+cd worker
+npm install
+```
+
+2. 创建 D1 数据库：
+```bash
+wrangler d1 create asimov-university
+```
+
+3. 更新 `worker/wrangler.toml` 中的数据库 ID。
+
+4. 运行数据库迁移：
+```bash
+wrangler d1 execute asimov-university --file=./schema.sql
+```
+
+5. 设置密钥：
+```bash
+wrangler secret put AI_API_URL
+wrangler secret put AI_API_KEY
+wrangler secret put AI_MODEL
+```
+
+6. 部署 Worker：
+```bash
+npm run deploy
+```
+
+7. 更新 `public/_redirects` 中的 Worker URL。
 
 ### 项目结构
 
@@ -152,9 +276,17 @@ AsimovUniversity/
 │   │   └── Mailbox.tsx     # 模拟邮箱
 │   ├── components/         # 可复用组件
 │   └── assets/             # 静态资源
-├── server/                 # 后端源代码
+├── server/                 # 本地后端（Node.js）
 │   ├── index.js            # Express服务器
 │   └── database.js         # SQLite数据库配置
+├── worker/                 # Cloudflare Workers 后端
+│   ├── src/                # Worker 源代码
+│   │   ├── index.ts        # Worker 入口
+│   │   └── handlers/       # API 处理器
+│   ├── schema.sql          # D1 数据库架构
+│   └── wrangler.toml       # Worker 配置
+├── public/                 # 静态公共资源
+│   └── _redirects          # Cloudflare Pages 重定向规则
 └── README.md
 ```
 
@@ -169,8 +301,8 @@ AsimovUniversity/
 ### 管理员访问
 
 在 `/admin` 访问管理后台，使用以下凭据：
-- 用户名: `admin`
-- 密码: `asimov2024`
+- 用户名: `asimov2025`
+- 密码: `asimov2025`
 
 ---
 

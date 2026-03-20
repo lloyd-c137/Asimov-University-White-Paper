@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/logo.png";
 import EmailInbox from "../components/EmailInbox";
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = import.meta.env.VITE_API_URL || "/api";
 const ADMIN_CREDENTIALS = { username: "asimov2025", password: "asimov2025" };
 
 interface User {

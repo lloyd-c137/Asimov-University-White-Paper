@@ -2,7 +2,7 @@ export async function handleHealth(ctx: any): Promise<Response> {
   const { env, origin } = ctx;
   
   try {
-    await env.DB.prepare('SELECT 1').first();
+    await env.KV.get('test');
     return ctx.jsonResponse({ 
       status: 'ok', 
       timestamp: Date.now(),

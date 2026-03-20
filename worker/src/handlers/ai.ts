@@ -1,6 +1,8 @@
+import { KV_KEYS, kvGet } from '../index';
+
 const LYRA_SOUL_URL = 'https://raw.githubusercontent.com/lloyd-c137/Asimov-University-White-Paper/main/Data/Lyra-soul.md';
 
-async function getLyraSoulContent(env: any): Promise<string> {
+async function getLyraSoulContent(): Promise<string> {
   try {
     const response = await fetch(LYRA_SOUL_URL);
     if (response.ok) {
@@ -30,7 +32,7 @@ export async function handleAI(ctx: any): Promise<Response> {
       return ctx.errorResponse('Server configuration error', 'AI API not configured', 500, origin);
     }
 
-    const lyraSoulContent = await getLyraSoulContent(env);
+    const lyraSoulContent = await getLyraSoulContent();
 
     const systemMessage = {
       role: 'system',

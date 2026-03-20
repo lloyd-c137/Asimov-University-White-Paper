@@ -2,10 +2,9 @@ name = "asimov-university-api"
 main = "src/index.ts"
 compatibility_date = "2024-01-01"
 
-[[d1_databases]]
-binding = "DB"
-database_name = "asimov-university"
-database_id = "placeholder-will-be-created"
+[[kv_namespaces]]
+binding = "KV"
+id = "placeholder-will-be-created"
 
 [vars]
 ENVIRONMENT = "production"

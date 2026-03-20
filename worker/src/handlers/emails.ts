@@ -1,3 +1,5 @@
+import { KV_KEYS, kvGet, kvPut, kvDelete } from '../index';
+
 export async function handleEmails(ctx: any): Promise<Response> {
   const { env, url, method, origin } = ctx;
 
@@ -10,60 +12,37 @@ export async function handleEmails(ctx: any): Promise<Response> {
 
     const id = ctx.generateUUID();
     const createdAt = Date.now();
+    const email = {
+      id,
+      toEmail: body.toEmail,
+      toName: body.toName || '',
+      fromEmail: body.fromEmail || 'admissions@asimov.edu',
+      fromName: body.fromName || 'Asimov University',
+      subject: body.subject,
+      body: body.body,
+      isRead: false,
+      createdAt,
+      folder: 'inbox',
+    };
 
-    await env.DB.prepare(
-      `INSERT INTO emails (id, to_email, to_name, from_email, from_name, subject, body, is_read, created_at, folder)
-       VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, 'inbox')`
-    )
-      .bind(
-        id,
-        body.toEmail,
-        body.toName || '',
-        body.fromEmail || 'admissions@asimov.edu',
-        body.fromName || 'Asimov University',
-        body.subject,
-        body.body,
-        createdAt
-      )
-      .run();
+    await kvPut(env.KV, KV_KEYS.EMAIL(id), email);
+    
+    const inboxList = await kvGet<string[]>(env.KV, KV_KEYS.EMAILS_INBOX(body.toEmail)) || [];
+    inboxList.unshift(id);
+    await kvPut(env.KV, KV_KEYS.EMAILS_INBOX(body.toEmail), inboxList);
 
-    return ctx.jsonResponse({
-      success: true,
-      email: {
-        id,
-        toEmail: body.toEmail,
-        toName: body.toName,
-        fromEmail: body.fromEmail || 'admissions@asimov.edu',
-        fromName: body.fromName || 'Asimov University',
-        subject: body.subject,
-        body: body.body,
-        isRead: false,
-        createdAt,
-        folder: 'inbox',
-      },
-    }, 201, origin);
+    return ctx.jsonResponse({ success: true, email }, 201, origin);
   }
 
   if (method === 'GET' && url.pathname.match(/^\/api\/emails\/inbox\/[^/]+$/)) {
     const email = decodeURIComponent(url.pathname.split('/')[4]);
-
-    const result = await env.DB.prepare('SELECT * FROM emails WHERE to_email = ? AND folder = ? ORDER BY created_at DESC')
-      .bind(email, 'inbox')
-      .all();
+    const inboxList = await kvGet<string[]>(env.KV, KV_KEYS.EMAILS_INBOX(email)) || [];
+    const emails = await Promise.all(
+      inboxList.map(id => kvGet<any>(env.KV, KV_KEYS.EMAIL(id)))
+    );
 
     return ctx.jsonResponse({
-      emails: result.results.map((e: any) => ({
-        id: e.id,
-        toEmail: e.to_email,
-        toName: e.to_name,
-        fromEmail: e.from_email,
-        fromName: e.from_name,
-        subject: e.subject,
-        body: e.body,
-        isRead: e.is_read === 1,
-        createdAt: e.created_at,
-        folder: e.folder,
-      })),
+      emails: emails.filter(e => e !== null).sort((a, b) => b.createdAt - a.createdAt),
     }, 200, origin);
   }
 
@@ -71,9 +50,11 @@ export async function handleEmails(ctx: any): Promise<Response> {
     const id = url.pathname.split('/')[3];
     const body = await ctx.readBody(ctx.request);
 
-    await env.DB.prepare('UPDATE emails SET is_read = ? WHERE id = ?')
-      .bind(body?.isRead ? 1 : 0, id)
-      .run();
+    const email = await kvGet<any>(env.KV, KV_KEYS.EMAIL(id));
+    if (email) {
+      email.isRead = body?.isRead ?? true;
+      await kvPut(env.KV, KV_KEYS.EMAIL(id), email);
+    }
 
     return ctx.jsonResponse({ success: true, message: 'Email read status updated' }, 200, origin);
   }
@@ -81,12 +62,16 @@ export async function handleEmails(ctx: any): Promise<Response> {
   if (method === 'DELETE' && url.pathname.match(/^\/api\/emails\/[^/]+$/)) {
     const id = url.pathname.split('/')[3];
 
-    const email = await env.DB.prepare('SELECT id FROM emails WHERE id = ?').bind(id).first();
+    const email = await kvGet<any>(env.KV, KV_KEYS.EMAIL(id));
     if (!email) {
       return ctx.errorResponse('Email not found', 'No email found with this ID', 404, origin);
     }
 
-    await env.DB.prepare('DELETE FROM emails WHERE id = ?').bind(id).run();
+    await kvDelete(env.KV, KV_KEYS.EMAIL(id));
+    
+    const inboxList = await kvGet<string[]>(env.KV, KV_KEYS.EMAILS_INBOX(email.toEmail)) || [];
+    const updatedList = inboxList.filter(eid => eid !== id);
+    await kvPut(env.KV, KV_KEYS.EMAILS_INBOX(email.toEmail), updatedList);
 
     return ctx.jsonResponse({ success: true, message: 'Email deleted successfully' }, 200, origin);
   }

@@ -1,3 +1,5 @@
+import { KV_KEYS, kvGet, kvPut } from '../index';
+
 export async function handleConversations(ctx: any): Promise<Response> {
   const { env, url, method, origin } = ctx;
 
@@ -8,47 +10,39 @@ export async function handleConversations(ctx: any): Promise<Response> {
       return ctx.errorResponse('Missing userId', 'User ID is required', 400, origin);
     }
 
-    const user = await env.DB.prepare('SELECT id FROM users WHERE id = ?').bind(body.userId).first();
+    const user = await kvGet<any>(env.KV, KV_KEYS.USER(body.userId));
     if (!user) {
       return ctx.errorResponse('User not found', 'No user found with this ID', 404, origin);
     }
 
     const id = ctx.generateUUID();
     const createdAt = Date.now();
+    const conversation = {
+      id,
+      userId: body.userId,
+      messages: body.messages || [],
+      createdAt,
+      updatedAt: createdAt,
+    };
 
-    await env.DB.prepare(
-      'INSERT INTO conversations (id, user_id, messages, created_at, updated_at) VALUES (?, ?, ?, ?, ?)'
-    )
-      .bind(id, body.userId, JSON.stringify(body.messages || []), createdAt, createdAt)
-      .run();
+    await kvPut(env.KV, KV_KEYS.CONVERSATION(id), conversation);
+    
+    const userConversations = await kvGet<string[]>(env.KV, KV_KEYS.CONVERSATIONS_BY_USER(body.userId)) || [];
+    userConversations.unshift(id);
+    await kvPut(env.KV, KV_KEYS.CONVERSATIONS_BY_USER(body.userId), userConversations);
 
-    return ctx.jsonResponse({
-      success: true,
-      conversation: {
-        id,
-        userId: body.userId,
-        messages: body.messages || [],
-        createdAt,
-        updatedAt: createdAt,
-      },
-    }, 201, origin);
+    return ctx.jsonResponse({ success: true, conversation }, 201, origin);
   }
 
   if (method === 'GET' && url.pathname.match(/^\/api\/conversations\/[^/]+$/)) {
     const userId = url.pathname.split('/')[3];
-
-    const result = await env.DB.prepare('SELECT * FROM conversations WHERE user_id = ? ORDER BY updated_at DESC')
-      .bind(userId)
-      .all();
+    const conversationIds = await kvGet<string[]>(env.KV, KV_KEYS.CONVERSATIONS_BY_USER(userId)) || [];
+    const conversations = await Promise.all(
+      conversationIds.map(id => kvGet<any>(env.KV, KV_KEYS.CONVERSATION(id)))
+    );
 
     return ctx.jsonResponse({
-      conversations: result.results.map((conv: any) => ({
-        id: conv.id,
-        userId: conv.user_id,
-        messages: JSON.parse(conv.messages),
-        createdAt: conv.created_at,
-        updatedAt: conv.updated_at,
-      })),
+      conversations: conversations.filter(c => c !== null).sort((a, b) => b.updatedAt - a.updatedAt),
     }, 200, origin);
   }
 
@@ -56,15 +50,14 @@ export async function handleConversations(ctx: any): Promise<Response> {
     const id = url.pathname.split('/')[3];
     const body = await ctx.readBody(ctx.request);
 
-    const conversation = await env.DB.prepare('SELECT id FROM conversations WHERE id = ?').bind(id).first();
+    const conversation = await kvGet<any>(env.KV, KV_KEYS.CONVERSATION(id));
     if (!conversation) {
       return ctx.errorResponse('Conversation not found', 'No conversation found with this ID', 404, origin);
     }
 
-    const updatedAt = Date.now();
-    await env.DB.prepare('UPDATE conversations SET messages = ?, updated_at = ? WHERE id = ?')
-      .bind(JSON.stringify(body.messages), updatedAt, id)
-      .run();
+    conversation.messages = body.messages;
+    conversation.updatedAt = Date.now();
+    await kvPut(env.KV, KV_KEYS.CONVERSATION(id), conversation);
 
     return ctx.jsonResponse({ success: true, message: 'Conversation updated' }, 200, origin);
   }

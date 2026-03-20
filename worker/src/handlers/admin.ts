@@ -1,17 +1,23 @@
+import { KV_KEYS, kvGet, kvPut, kvDelete, kvGetAll } from '../index';
+
 export async function handleAdmin(ctx: any): Promise<Response> {
   const { env, url, method, origin } = ctx;
 
   if (method === 'GET' && url.pathname === '/api/admin/users') {
-    const result = await env.DB.prepare('SELECT id, name, region, email, created_at, status FROM users ORDER BY created_at DESC').all();
-
+    const usersList = await kvGet<string[]>(env.KV, KV_KEYS.USERS_LIST) || [];
+    const users = await kvGetAll<any>(env.KV, usersList.map(id => KV_KEYS.USER(id)));
+    
     const usersWithApplication = await Promise.all(
-      result.results.map(async (user: any) => {
-        const application = await env.DB.prepare('SELECT id FROM applications WHERE user_id = ? OR email = ?')
-          .bind(user.id, user.email)
-          .first();
+      users.filter(u => u !== null).map(async (user: any) => {
+        const applicationId = await kvGet<string>(env.KV, KV_KEYS.APPLICATIONS_BY_EMAIL(user.email));
         return {
-          ...user,
-          hasApplication: !!application,
+          id: user.id,
+          name: user.name,
+          region: user.region,
+          email: user.email,
+          created_at: user.createdAt,
+          status: user.status,
+          hasApplication: !!applicationId,
         };
       })
     );
@@ -22,64 +28,52 @@ export async function handleAdmin(ctx: any): Promise<Response> {
   if (method === 'DELETE' && url.pathname.match(/^\/api\/admin\/users\/[^/]+$/)) {
     const id = url.pathname.split('/')[4];
 
-    const user = await env.DB.prepare('SELECT id FROM users WHERE id = ?').bind(id).first();
+    const user = await kvGet<any>(env.KV, KV_KEYS.USER(id));
     if (!user) {
       return ctx.errorResponse('User not found', 'No user found with this ID', 404, origin);
     }
 
-    await env.DB.prepare('DELETE FROM conversations WHERE user_id = ?').bind(id).run();
-    await env.DB.prepare('DELETE FROM users WHERE id = ?').bind(id).run();
+    await kvDelete(env.KV, KV_KEYS.USER(id));
+    await kvDelete(env.KV, KV_KEYS.USER_BY_EMAIL(user.email));
+    
+    const usersList = await kvGet<string[]>(env.KV, KV_KEYS.USERS_LIST) || [];
+    await kvPut(env.KV, KV_KEYS.USERS_LIST, usersList.filter(uid => uid !== id));
 
     return ctx.jsonResponse({ success: true, message: 'User deleted successfully' }, 200, origin);
   }
 
   if (method === 'GET' && url.pathname === '/api/admin/applications') {
-    const result = await env.DB.prepare('SELECT * FROM applications ORDER BY submitted_at DESC').all();
+    const applicationsList = await kvGet<string[]>(env.KV, KV_KEYS.APPLICATIONS_LIST) || [];
+    const applications = await kvGetAll<any>(env.KV, applicationsList.map(id => KV_KEYS.APPLICATION(id)));
 
     return ctx.jsonResponse({
-      applications: result.results.map((app: any) => ({
+      applications: applications.filter(a => a !== null).map((app: any) => ({
         id: app.id,
-        userId: app.user_id,
+        userId: app.userId,
         name: app.name,
         region: app.region,
         email: app.email,
         language: app.language,
-        messages: JSON.parse(app.messages || '[]'),
-        displayMessages: JSON.parse(app.display_messages || '[]'),
-        finalResponse: app.final_response,
+        messages: app.messages,
+        displayMessages: app.displayMessages,
+        finalResponse: app.finalResponse,
         status: app.status,
-        submittedAt: app.submitted_at,
-        reviewedAt: app.reviewed_at,
-        reviewerNotes: app.reviewer_notes,
+        submittedAt: app.submittedAt,
+        reviewedAt: app.reviewedAt,
+        reviewerNotes: app.reviewerNotes,
       })),
     }, 200, origin);
   }
 
   if (method === 'GET' && url.pathname.match(/^\/api\/admin\/applications\/[^/]+$/)) {
     const id = url.pathname.split('/')[4];
+    const application = await kvGet<any>(env.KV, KV_KEYS.APPLICATION(id));
 
-    const application = await env.DB.prepare('SELECT * FROM applications WHERE id = ?').bind(id).first();
     if (!application) {
       return ctx.errorResponse('Application not found', 'No application found with this ID', 404, origin);
     }
 
-    return ctx.jsonResponse({
-      application: {
-        id: application.id,
-        userId: application.user_id,
-        name: application.name,
-        region: application.region,
-        email: application.email,
-        language: application.language,
-        messages: JSON.parse(application.messages || '[]'),
-        displayMessages: JSON.parse(application.display_messages || '[]'),
-        finalResponse: application.final_response,
-        status: application.status,
-        submittedAt: application.submitted_at,
-        reviewedAt: application.reviewed_at,
-        reviewerNotes: application.reviewer_notes,
-      },
-    }, 200, origin);
+    return ctx.jsonResponse({ application }, 200, origin);
   }
 
   if (method === 'PUT' && url.pathname.match(/^\/api\/admin\/applications\/[^/]+\/status$/)) {
@@ -90,18 +84,22 @@ export async function handleAdmin(ctx: any): Promise<Response> {
       return ctx.errorResponse('Invalid status', 'Status must be pending, approved, rejected, or conditional', 400, origin);
     }
 
-    const application = await env.DB.prepare('SELECT * FROM applications WHERE id = ?').bind(id).first();
+    const application = await kvGet<any>(env.KV, KV_KEYS.APPLICATION(id));
     if (!application) {
       return ctx.errorResponse('Application not found', 'No application found with this ID', 404, origin);
     }
 
-    const reviewedAt = Date.now();
-    await env.DB.prepare('UPDATE applications SET status = ?, reviewer_notes = ?, reviewed_at = ? WHERE id = ?')
-      .bind(body.status, body.reviewerNotes || null, reviewedAt, id)
-      .run();
+    application.status = body.status;
+    application.reviewerNotes = body.reviewerNotes || null;
+    application.reviewedAt = Date.now();
+    await kvPut(env.KV, KV_KEYS.APPLICATION(id), application);
 
-    if (application.user_id) {
-      await env.DB.prepare('UPDATE users SET status = ? WHERE id = ?').bind(body.status, application.user_id).run();
+    if (application.userId) {
+      const user = await kvGet<any>(env.KV, KV_KEYS.USER(application.userId));
+      if (user) {
+        user.status = body.status;
+        await kvPut(env.KV, KV_KEYS.USER(application.userId), user);
+      }
     }
 
     return ctx.jsonResponse({ success: true, message: 'Application status updated' }, 200, origin);
@@ -110,12 +108,16 @@ export async function handleAdmin(ctx: any): Promise<Response> {
   if (method === 'DELETE' && url.pathname.match(/^\/api\/admin\/applications\/[^/]+$/)) {
     const id = url.pathname.split('/')[4];
 
-    const application = await env.DB.prepare('SELECT id FROM applications WHERE id = ?').bind(id).first();
+    const application = await kvGet<any>(env.KV, KV_KEYS.APPLICATION(id));
     if (!application) {
       return ctx.errorResponse('Application not found', 'No application found with this ID', 404, origin);
     }
 
-    await env.DB.prepare('DELETE FROM applications WHERE id = ?').bind(id).run();
+    await kvDelete(env.KV, KV_KEYS.APPLICATION(id));
+    await kvDelete(env.KV, KV_KEYS.APPLICATIONS_BY_EMAIL(application.email));
+    
+    const applicationsList = await kvGet<string[]>(env.KV, KV_KEYS.APPLICATIONS_LIST) || [];
+    await kvPut(env.KV, KV_KEYS.APPLICATIONS_LIST, applicationsList.filter(aid => aid !== id));
 
     return ctx.jsonResponse({ success: true, message: 'Application deleted successfully' }, 200, origin);
   }
@@ -129,108 +131,59 @@ export async function handleAdmin(ctx: any): Promise<Response> {
 
     const id = ctx.generateUUID();
     const createdAt = Date.now();
+    const log = {
+      id,
+      action: body.action,
+      details: body.details || null,
+      userEmail: body.userEmail || null,
+      targetId: body.targetId || null,
+      targetType: body.targetType || null,
+      createdAt,
+    };
 
-    await env.DB.prepare(
-      'INSERT INTO admin_logs (id, action, details, user_email, target_id, target_type, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)'
-    )
-      .bind(id, body.action, body.details || null, body.userEmail || null, body.targetId || null, body.targetType || null, createdAt)
-      .run();
+    await kvPut(env.KV, KV_KEYS.ADMIN_LOG(id), log);
+    
+    const logsList = await kvGet<string[]>(env.KV, KV_KEYS.ADMIN_LOGS_LIST) || [];
+    logsList.unshift(id);
+    if (logsList.length > 1000) logsList.pop();
+    await kvPut(env.KV, KV_KEYS.ADMIN_LOGS_LIST, logsList);
 
-    return ctx.jsonResponse({
-      success: true,
-      log: { id, action: body.action, details: body.details, userEmail: body.userEmail, targetId: body.targetId, targetType: body.targetType, createdAt },
-    }, 201, origin);
+    return ctx.jsonResponse({ success: true, log }, 201, origin);
   }
 
   if (method === 'GET' && url.pathname === '/api/admin/logs') {
     const action = url.searchParams.get('action');
-    const targetType = url.searchParams.get('targetType');
     const limit = parseInt(url.searchParams.get('limit') || '100');
-    const offset = parseInt(url.searchParams.get('offset') || '0');
 
-    let query = 'SELECT * FROM admin_logs';
-    const params: any[] = [];
-    const conditions: string[] = [];
-
+    const logsList = await kvGet<string[]>(env.KV, KV_KEYS.ADMIN_LOGS_LIST) || [];
+    let logs = await kvGetAll<any>(env.KV, logsList.slice(0, limit));
+    
+    logs = logs.filter(l => l !== null);
     if (action) {
-      conditions.push('action = ?');
-      params.push(action);
+      logs = logs.filter((l: any) => l.action === action);
     }
-    if (targetType) {
-      conditions.push('target_type = ?');
-      params.push(targetType);
-    }
-    if (conditions.length > 0) {
-      query += ' WHERE ' + conditions.join(' AND ');
-    }
-    query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
-    params.push(limit, offset);
 
-    const result = await env.DB.prepare(query).bind(...params).all();
-
-    return ctx.jsonResponse({
-      logs: result.results.map((log: any) => ({
-        id: log.id,
-        action: log.action,
-        details: log.details,
-        userEmail: log.user_email,
-        targetId: log.target_id,
-        targetType: log.target_type,
-        createdAt: log.created_at,
-      })),
-    }, 200, origin);
+    return ctx.jsonResponse({ logs }, 200, origin);
   }
 
   if (method === 'GET' && url.pathname === '/api/email-templates') {
-    const category = url.searchParams.get('category');
-
-    let query = 'SELECT * FROM email_templates';
-    const params: any[] = [];
-
-    if (category) {
-      query += ' WHERE category = ?';
-      params.push(category);
-    }
-    query += ' ORDER BY created_at DESC';
-
-    const result = await env.DB.prepare(query).bind(...params).all();
+    const templatesList = await kvGet<string[]>(env.KV, KV_KEYS.EMAIL_TEMPLATES_LIST) || [];
+    const templates = await kvGetAll<any>(env.KV, templatesList.map(id => KV_KEYS.EMAIL_TEMPLATE(id)));
 
     return ctx.jsonResponse({
-      templates: result.results.map((template: any) => ({
-        id: template.id,
-        name: template.name,
-        category: template.category,
-        subject: template.subject,
-        body: template.body,
-        variables: JSON.parse(template.variables || '[]'),
-        isActive: template.is_active === 1,
-        createdAt: template.created_at,
-        updatedAt: template.updated_at,
-      })),
+      templates: templates.filter(t => t !== null).sort((a, b) => b.createdAt - a.createdAt),
     }, 200, origin);
   }
 
   if (method === 'GET' && url.pathname.match(/^\/api\/email-templates\/[^/]+$/)) {
     const id = url.pathname.split('/')[3];
+    const template = await kvGet<any>(env.KV, KV_KEYS.EMAIL_TEMPLATE(id));
 
-    const template = await env.DB.prepare('SELECT * FROM email_templates WHERE id = ?').bind(id).first();
     if (!template) {
       return ctx.errorResponse('Template not found', 'No email template found with this ID', 404, origin);
     }
 
-    return ctx.jsonResponse({
-      template: {
-        id: template.id,
-        name: template.name,
-        category: template.category,
-        subject: template.subject,
-        body: template.body,
-        variables: JSON.parse(template.variables || '[]'),
-        isActive: template.is_active === 1,
-        createdAt: template.created_at,
-        updatedAt: template.updated_at,
-      },
-    }, 200, origin);
+    return ctx.jsonResponse({ template }, 200, origin);
   }
 
   if (method === 'POST' && url.pathname === '/api/email-templates') {
@@ -242,54 +195,44 @@ export async function handleAdmin(ctx: any): Promise<Response> {
 
     const id = ctx.generateUUID();
     const createdAt = Date.now();
+    const template = {
+      id,
+      name: body.name,
+      category: body.category,
+      subject: body.subject,
+      body: body.body,
+      variables: body.variables || [],
+      isActive: body.isActive !== false,
+      createdAt,
+      updatedAt: createdAt,
+    };
 
-    await env.DB.prepare(
-      'INSERT INTO email_templates (id, name, category, subject, body, variables, is_active, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
-    )
-      .bind(id, body.name, body.category, body.subject, body.body, JSON.stringify(body.variables || []), body.isActive !== false ? 1 : 0, createdAt, createdAt)
-      .run();
+    await kvPut(env.KV, KV_KEYS.EMAIL_TEMPLATE(id), template);
+    
+    const templatesList = await kvGet<string[]>(env.KV, KV_KEYS.EMAIL_TEMPLATES_LIST) || [];
+    templatesList.unshift(id);
+    await kvPut(env.KV, KV_KEYS.EMAIL_TEMPLATES_LIST, templatesList);
 
-    return ctx.jsonResponse({
-      success: true,
-      template: {
-        id,
-        name: body.name,
-        category: body.category,
-        subject: body.subject,
-        body: body.body,
-        variables: body.variables || [],
-        isActive: body.isActive !== false,
-        createdAt,
-        updatedAt: createdAt,
-      },
-    }, 201, origin);
+    return ctx.jsonResponse({ success: true, template }, 201, origin);
   }
 
   if (method === 'PUT' && url.pathname.match(/^\/api\/email-templates\/[^/]+$/)) {
     const id = url.pathname.split('/')[3];
     const body = await ctx.readBody(ctx.request);
 
-    const template = await env.DB.prepare('SELECT id FROM email_templates WHERE id = ?').bind(id).first();
+    const template = await kvGet<any>(env.KV, KV_KEYS.EMAIL_TEMPLATE(id));
     if (!template) {
       return ctx.errorResponse('Template not found', 'No email template found with this ID', 404, origin);
     }
 
-    const updatedAt = Date.now();
-
-    await env.DB.prepare(
-      'UPDATE email_templates SET name = ?, category = ?, subject = ?, body = ?, variables = ?, is_active = ?, updated_at = ? WHERE id = ?'
-    )
-      .bind(
-        body.name,
-        body.category,
-        body.subject,
-        body.body,
-        JSON.stringify(body.variables || []),
-        body.isActive !== false ? 1 : 0,
-        updatedAt,
-        id
-      )
-      .run();
+    template.name = body.name;
+    template.category = body.category;
+    template.subject = body.subject;
+    template.body = body.body;
+    template.variables = body.variables || [];
+    template.isActive = body.isActive !== false;
+    template.updatedAt = Date.now();
+    await kvPut(env.KV, KV_KEYS.EMAIL_TEMPLATE(id), template);
 
     return ctx.jsonResponse({ success: true, message: 'Email template updated' }, 200, origin);
   }
@@ -297,12 +240,15 @@ export async function handleAdmin(ctx: any): Promise<Response> {
   if (method === 'DELETE' && url.pathname.match(/^\/api\/email-templates\/[^/]+$/)) {
     const id = url.pathname.split('/')[3];
 
-    const template = await env.DB.prepare('SELECT id FROM email_templates WHERE id = ?').bind(id).first();
+    const template = await kvGet<any>(env.KV, KV_KEYS.EMAIL_TEMPLATE(id));
     if (!template) {
       return ctx.errorResponse('Template not found', 'No email template found with this ID', 404, origin);
     }
 
-    await env.DB.prepare('DELETE FROM email_templates WHERE id = ?').bind(id).run();
+    await kvDelete(env.KV, KV_KEYS.EMAIL_TEMPLATE(id));
+    
+    const templatesList = await kvGet<string[]>(env.KV, KV_KEYS.EMAIL_TEMPLATES_LIST) || [];
+    await kvPut(env.KV, KV_KEYS.EMAIL_TEMPLATES_LIST, templatesList.filter(tid => tid !== id));
 
     return ctx.jsonResponse({ success: true, message: 'Email template deleted successfully' }, 200, origin);
   }

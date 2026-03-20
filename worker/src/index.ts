@@ -1,5 +1,5 @@
 export interface Env {
-  DB: D1Database;
+  KV: KVNamespace;
   AI_API_URL: string;
   AI_API_KEY: string;
   AI_MODEL: string;
@@ -53,6 +53,42 @@ function generateUUID(): string {
 }
 
 export { generateUUID, jsonResponse, errorResponse, readBody, corsHeaders };
+
+export const KV_KEYS = {
+  USER: (id: string) => `user:${id}`,
+  USER_BY_EMAIL: (email: string) => `user:email:${email}`,
+  USERS_LIST: 'users:list',
+  CONVERSATION: (id: string) => `conversation:${id}`,
+  CONVERSATIONS_BY_USER: (userId: string) => `conversations:user:${userId}`,
+  APPLICATION: (id: string) => `application:${id}`,
+  APPLICATIONS_LIST: 'applications:list',
+  APPLICATIONS_BY_EMAIL: (email: string) => `applications:email:${email}`,
+  EMAIL: (id: string) => `email:${id}`,
+  EMAILS_INBOX: (email: string) => `emails:inbox:${email}`,
+  LOG: (id: string) => `log:${id}`,
+  LOGS_LIST: 'logs:list',
+  ADMIN_LOG: (id: string) => `adminlog:${id}`,
+  ADMIN_LOGS_LIST: 'adminlogs:list',
+  EMAIL_TEMPLATE: (id: string) => `template:${id}`,
+  EMAIL_TEMPLATES_LIST: 'templates:list',
+};
+
+export async function kvGet<T>(kv: KVNamespace, key: string): Promise<T | null> {
+  const value = await kv.get(key);
+  return value ? JSON.parse(value) : null;
+}
+
+export async function kvPut(kv: KVNamespace, key: string, value: any): Promise<void> {
+  await kv.put(key, JSON.stringify(value));
+}
+
+export async function kvDelete(kv: KVNamespace, key: string): Promise<void> {
+  await kv.delete(key);
+}
+
+export async function kvGetAll<T>(kv: KVNamespace, keys: string[]): Promise<(T | null)[]> {
+  return Promise.all(keys.map(key => kvGet<T>(kv, key)));
+}
 
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
@@ -130,55 +166,31 @@ async function handleLogs(ctx: any): Promise<Response> {
 
     const id = ctx.generateUUID();
     const timestamp = Date.now();
+    const log = { id, level: body.level, message: body.message, source: body.source || 'worker', metadata: body.metadata || {}, timestamp };
 
-    await env.DB.prepare(
-      'INSERT INTO logs (id, level, message, source, metadata, timestamp) VALUES (?, ?, ?, ?, ?, ?)'
-    )
-      .bind(id, body.level, body.message, body.source || 'worker', JSON.stringify(body.metadata || {}), timestamp)
-      .run();
+    await kvPut(env.KV, KV_KEYS.LOG(id), log);
+    
+    const logsList = await kvGet<string[]>(env.KV, KV_KEYS.LOGS_LIST) || [];
+    logsList.unshift(id);
+    if (logsList.length > 1000) logsList.pop();
+    await kvPut(env.KV, KV_KEYS.LOGS_LIST, logsList);
 
-    return ctx.jsonResponse({
-      success: true,
-      log: { id, level: body.level, message: body.message, source: body.source, metadata: body.metadata, timestamp },
-    }, 201, origin);
+    return ctx.jsonResponse({ success: true, log }, 201, origin);
   }
 
   if (method === 'GET' && url.pathname === '/api/logs') {
     const level = url.searchParams.get('level');
-    const source = url.searchParams.get('source');
     const limit = parseInt(url.searchParams.get('limit') || '100');
-    const offset = parseInt(url.searchParams.get('offset') || '0');
 
-    let query = 'SELECT * FROM logs';
-    const params: any[] = [];
-    const conditions: string[] = [];
-
+    const logsList = await kvGet<string[]>(env.KV, KV_KEYS.LOGS_LIST) || [];
+    let logs = await kvGetAll<any>(env.KV, logsList.slice(0, limit));
+    
+    logs = logs.filter(l => l !== null);
     if (level) {
-      conditions.push('level = ?');
-      params.push(level);
+      logs = logs.filter((l: any) => l.level === level);
     }
-    if (source) {
-      conditions.push('source = ?');
-      params.push(source);
-    }
-    if (conditions.length > 0) {
-      query += ' WHERE ' + conditions.join(' AND ');
-    }
-    query += ' ORDER BY timestamp DESC LIMIT ? OFFSET ?';
-    params.push(limit, offset);
 
-    const result = await env.DB.prepare(query).bind(...params).all();
-
-    return ctx.jsonResponse({
-      logs: result.results.map((log: any) => ({
-        id: log.id,
-        level: log.level,
-        message: log.message,
-        source: log.source,
-        metadata: JSON.parse(log.metadata || '{}'),
-        timestamp: log.timestamp,
-      })),
-    }, 200, origin);
+    return ctx.jsonResponse({ logs }, 200, origin);
   }
 
   return ctx.errorResponse('Not Found', 'Log endpoint not found', 404, origin);

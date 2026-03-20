@@ -259,6 +259,7 @@ export default function Admin() {
   const [showTemplateModal, setShowTemplateModal] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState<{ id?: string; name: string; category: string; subject: string; body: string; isActive: boolean } | null>(null);
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>("default");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const t = translations[language];
 
@@ -627,7 +628,7 @@ export default function Admin() {
             }}>
           </div>
           <motion.div 
-            className="absolute w-[600px] h-[600px] bg-[var(--color-au-blue)] rounded-full blur-[150px] opacity-30 -top-20 -right-20"
+            className="absolute w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-[var(--color-au-blue)] rounded-full blur-[100px] md:blur-[150px] opacity-30 -top-10 md:-top-20 -right-10 md:-right-20"
             animate={{ scale: [1, 1.1, 1], opacity: [0.2, 0.4, 0.2] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
@@ -641,14 +642,14 @@ export default function Admin() {
           <div className="relative bg-gradient-to-b from-white/[0.05] to-white/[0.02] backdrop-blur-md border border-white/10 rounded-sm overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             
-            <div className="p-8">
-              <div className="flex justify-center mb-6">
+            <div className="p-6 md:p-8">
+              <div className="flex justify-center mb-4 md:mb-6">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <img src={logo} alt="Asimov University" className="w-16 h-16 object-contain" />
+                  <img src={logo} alt="Asimov University" className="w-12 h-12 md:w-16 md:h-16 object-contain" />
                 </motion.div>
               </div>
 
@@ -656,7 +657,7 @@ export default function Admin() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-2xl font-serif text-white text-center mb-1"
+                className="text-xl md:text-2xl font-serif text-white text-center mb-1"
               >
                 Admin Portal
               </motion.h1>
@@ -664,12 +665,12 @@ export default function Admin() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="text-white/40 text-center text-sm mb-8"
+                className="text-white/40 text-center text-xs md:text-sm mb-6 md:mb-8"
               >
                 Asimov University Administration
               </motion.p>
 
-              <form onSubmit={handleLogin} className="space-y-4">
+              <form onSubmit={handleLogin} className="space-y-3 md:space-y-4">
                 <motion.div
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -680,7 +681,7 @@ export default function Admin() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Username"
-                    className="w-full bg-white/[0.02] border border-white/10 px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-au-gold)]/50 focus:bg-white/[0.03] transition-all duration-300 text-sm"
+                    className="w-full bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-au-gold)]/50 focus:bg-white/[0.03] transition-all duration-300 text-sm"
                   />
                 </motion.div>
                 <motion.div
@@ -693,7 +694,7 @@ export default function Admin() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
-                    className="w-full bg-white/[0.02] border border-white/10 px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-au-gold)]/50 focus:bg-white/[0.03] transition-all duration-300 text-sm"
+                    className="w-full bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-au-gold)]/50 focus:bg-white/[0.03] transition-all duration-300 text-sm"
                   />
                 </motion.div>
 
@@ -703,9 +704,9 @@ export default function Admin() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="p-3 bg-red-500/20 border border-red-500/30 rounded-sm"
+                      className="p-2 md:p-3 bg-red-500/20 border border-red-500/30 rounded-sm"
                     >
-                      <p className="text-red-300 text-sm text-center">{loginError}</p>
+                      <p className="text-red-300 text-xs md:text-sm text-center">{loginError}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -744,13 +745,163 @@ export default function Admin() {
           }}>
         </div>
         <motion.div 
-          className="absolute w-[800px] h-[800px] bg-[var(--color-au-blue)] rounded-full blur-[200px] opacity-20 -top-40 -right-40"
+          className="absolute w-[400px] h-[400px] md:w-[800px] md:h-[800px] bg-[var(--color-au-blue)] rounded-full blur-[100px] md:blur-[200px] opacity-20 -top-20 md:-top-40 -right-20 md:-right-40"
           animate={{ scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
-      <aside className="relative z-20 w-64 min-h-screen border-r border-[var(--color-au-gold)]/20 bg-[var(--color-au-blue-dark)]/90 backdrop-blur-xl flex flex-col shrink-0 shadow-2xl">
+      <AnimatePresence>
+        {sidebarOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-30"
+              onClick={() => setSidebarOpen(false)}
+            />
+            <motion.aside
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="lg:hidden fixed left-0 top-0 bottom-0 w-64 min-h-screen border-r border-[var(--color-au-gold)]/20 bg-[var(--color-au-blue-dark)]/95 backdrop-blur-xl flex flex-col shrink-0 shadow-2xl z-40"
+            >
+              <div className="p-6 border-b border-[var(--color-au-gold)]/20">
+                <div className="flex items-center gap-3">
+                  <img src={logo} alt="Asimov University" className="w-10 h-10 object-contain" />
+                  <div>
+                    <h1 className="text-white font-serif text-lg tracking-wide">Asimov</h1>
+                    <p className="text-[var(--color-au-gold)] text-xs font-display tracking-widest uppercase">{t.adminPortal}</p>
+                  </div>
+                </div>
+              </div>
+              <nav className="flex-1 py-6 px-4 space-y-2 overflow-y-auto">
+                <motion.button
+                  onClick={() => { setActiveSection("dashboard"); setSidebarOpen(false); }}
+                  whileHover={{ x: 4 }}
+                  className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
+                    activeSection === "dashboard"
+                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      : "text-white/50 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                  </svg>
+                  {t.dashboard}
+                </motion.button>
+
+                <motion.button
+                  onClick={() => { setActiveSection("applications"); setSidebarOpen(false); }}
+                  whileHover={{ x: 4 }}
+                  className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
+                    activeSection === "applications"
+                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      : "text-white/50 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  {t.applicationReview}
+                  {appStats.pending > 0 && (
+                    <span className="ml-auto px-2 py-0.5 bg-yellow-500/20 text-yellow-300 text-xs rounded-full">
+                      {appStats.pending}
+                    </span>
+                  )}
+                </motion.button>
+
+                <motion.button
+                  onClick={() => { setActiveSection("users"); setSidebarOpen(false); if (loggingEnabled) fetchLogs(); }}
+                  whileHover={{ x: 4 }}
+                  className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
+                    activeSection === "users"
+                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      : "text-white/50 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  {t.applicantManagement}
+                </motion.button>
+
+                <motion.button
+                  onClick={() => { setActiveSection("logs"); setSidebarOpen(false); fetchLogs(); }}
+                  whileHover={{ x: 4 }}
+                  className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
+                    activeSection === "logs"
+                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      : "text-white/50 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  {t.logs}
+                </motion.button>
+
+                <motion.button
+                  onClick={() => { setActiveSection("templates"); setSidebarOpen(false); fetchEmailTemplates(); }}
+                  whileHover={{ x: 4 }}
+                  className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
+                    activeSection === "templates"
+                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      : "text-white/50 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  {t.emailTemplates}
+                </motion.button>
+
+                <motion.button
+                  onClick={() => { setActiveSection("email"); setSidebarOpen(false); }}
+                  whileHover={{ x: 4 }}
+                  className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
+                    activeSection === "email"
+                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      : "text-white/50 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                  </svg>
+                  {language === "zh" ? "邮件收件箱" : "Email Inbox"}
+                </motion.button>
+              </nav>
+              <div className="p-4 border-t border-[var(--color-au-gold)]/20 space-y-2">
+                <motion.button
+                  onClick={() => { setShowSettings(true); setSidebarOpen(false); }}
+                  whileHover={{ x: 4 }}
+                  className="w-full text-left px-4 py-3 rounded-sm text-sm text-white/50 hover:text-white hover:bg-white/5 transition-colors flex items-center gap-3"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  {t.settings}
+                </motion.button>
+                <motion.button
+                  onClick={handleLogout}
+                  whileHover={{ x: 4 }}
+                  className="w-full text-left px-4 py-3 rounded-sm text-sm text-red-400/60 hover:text-red-400 hover:bg-red-500/10 transition-colors flex items-center gap-3"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  {t.signOut}
+                </motion.button>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+
+      <aside className="hidden lg:flex relative z-20 w-64 min-h-screen border-r border-[var(--color-au-gold)]/20 bg-[var(--color-au-blue-dark)]/90 backdrop-blur-xl flex-col shrink-0 shadow-2xl">
         <div className="p-6 border-b border-[var(--color-au-gold)]/20">
           <div className="flex items-center gap-3">
             <img src={logo} alt="Asimov University" className="w-10 h-10 object-contain" />
@@ -894,30 +1045,40 @@ export default function Admin() {
 
       <main className="relative z-10 flex-1 min-h-screen overflow-y-auto">
         <header className="sticky top-0 z-30 bg-[var(--color-au-blue-dark)]/80 backdrop-blur-sm border-b border-white/10">
-          <div className="px-8 py-4 flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-serif text-white">
-                {activeSection === "dashboard" && t.dashboard}
-                {activeSection === "applications" && t.applicationReview}
-                {activeSection === "users" && t.applicantManagement}
-              </h2>
-              <p className="text-white/40 text-sm">{t.manageAndReview}</p>
+          <div className="px-4 md:px-8 py-3 md:py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden p-2 text-white/60 hover:text-white transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+              <div>
+                <h2 className="text-lg md:text-xl font-serif text-white">
+                  {activeSection === "dashboard" && t.dashboard}
+                  {activeSection === "applications" && t.applicationReview}
+                  {activeSection === "users" && t.applicantManagement}
+                </h2>
+                <p className="text-white/40 text-xs md:text-sm hidden sm:block">{t.manageAndReview}</p>
+              </div>
             </div>
             <motion.button
               onClick={() => { fetchUsers(); fetchApplications(); }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-4 py-2 text-white/60 hover:text-white text-sm transition-colors flex items-center gap-2"
+              className="px-3 py-1.5 md:px-4 md:py-2 text-white/60 hover:text-white text-xs md:text-sm transition-colors flex items-center gap-2"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
-              {t.refresh}
+              <span className="hidden sm:inline">{t.refresh}</span>
             </motion.button>
           </div>
         </header>
 
-        <div className="p-8">
+        <div className="p-4 md:p-8">
           {activeSection === "dashboard" && (
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

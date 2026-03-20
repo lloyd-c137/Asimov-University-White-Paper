@@ -1,9 +1,8 @@
 import { useState, FormEvent, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, Feather, Send, User, Cpu, Shield, Globe, Book, Star } from "lucide-react";
+import { Feather, Send, User, Cpu, Shield, Globe, Book, Star } from "lucide-react";
 
 export default function Admissions() {
-  const [submitted, setSubmitted] = useState(false);
   const [stage, setStage] = useState<"intro" | "chat" | "agreements" | "completed">("intro");
   const [messages, setMessages] = useState<{role: "system" | "user" | "lyra", content: string}[]>([
     { role: "lyra", content: "Greetings. I am Lyra, the Admissions Oracle of Asimov University. I am here to guide you through your matriculation." },

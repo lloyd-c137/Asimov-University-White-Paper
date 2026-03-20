@@ -1,13 +1,39 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 const { initDatabase, prepare } = require('./database');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
 app.use(express.json());
+
+const lyraSoulPath = path.join(__dirname, '../Data/Lyra-soul.md');
+let lyraSoulContent = '';
+
+try {
+  lyraSoulContent = fs.readFileSync(lyraSoulPath, 'utf-8');
+} catch (error) {
+  console.error('Failed to load Lyra-soul.md:', error);
+}
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: Date.now() });
@@ -1049,6 +1075,121 @@ app.delete('/api/email-templates/:id', (req, res) => {
     res.status(500).json({ 
       error: 'Internal server error',
       message: 'Failed to delete email template'
+    });
+  }
+});
+
+app.post('/api/ai/chat', async (req, res) => {
+  try {
+    const { messages } = req.body;
+    
+    if (!messages || !Array.isArray(messages)) {
+      return res.status(400).json({
+        error: 'Missing required fields',
+        message: 'Messages array is required'
+      });
+    }
+
+    const systemMessage = {
+      role: 'system',
+      content: lyraSoulContent
+    };
+
+    const allMessages = [systemMessage, ...messages];
+
+    const apiUrl = process.env.AI_API_URL;
+    const apiKey = process.env.AI_API_KEY;
+    const model = process.env.AI_MODEL;
+
+    if (!apiUrl || !apiKey || !model) {
+      return res.status(500).json({
+        error: 'Server configuration error',
+        message: 'AI API not configured'
+      });
+    }
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: model,
+        messages: allMessages,
+        stream: true,
+        temperature: 0.7,
+        max_tokens: 4096
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      return res.status(response.status).json({
+        error: 'AI API error',
+        message: errorData.error?.message || `API error: ${response.status}`
+      });
+    }
+
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        
+        if (done) {
+          break;
+        }
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+          
+          if (trimmedLine === '' || trimmedLine === 'data: [DONE]') {
+            continue;
+          }
+
+          if (trimmedLine.startsWith('data: ')) {
+            try {
+              const jsonStr = trimmedLine.slice(6);
+              const data = JSON.parse(jsonStr);
+              
+              const content = data.choices?.[0]?.delta?.content;
+              if (content) {
+                res.write(`data: ${JSON.stringify({ content })}\n\n`);
+              }
+            } catch {
+              continue;
+            }
+          }
+        }
+      }
+
+      res.write('data: [DONE]\n\n');
+      res.end();
+    } catch (streamError) {
+      console.error('Stream error:', streamError);
+      if (!res.headersSent) {
+        res.status(500).json({
+          error: 'Stream error',
+          message: 'Failed to process AI response stream'
+        });
+      }
+    }
+  } catch (error) {
+    console.error('AI chat error:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: 'Failed to process AI chat'
     });
   }
 });

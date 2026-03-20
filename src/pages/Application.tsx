@@ -1799,12 +1799,12 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                    }}>
               </div>
               <motion.div 
-                className="absolute w-[800px] h-[800px] bg-[var(--color-au-blue)] rounded-full blur-[150px] opacity-40 -top-20 -right-20"
+                className="absolute w-[400px] h-[400px] md:w-[800px] md:h-[800px] bg-[var(--color-au-blue)] rounded-full blur-[100px] md:blur-[150px] opacity-40 -top-10 md:-top-20 -right-10 md:-right-20"
                 animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               />
               <motion.div 
-                className="absolute w-[600px] h-[600px] bg-[var(--color-au-gold)] rounded-full blur-[180px] opacity-20 -bottom-20 -left-20"
+                className="absolute w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-[var(--color-au-gold)] rounded-full blur-[120px] md:blur-[180px] opacity-20 -bottom-10 md:-bottom-20 -left-10 md:-left-20"
                 animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
                 transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
               />
@@ -1815,22 +1815,22 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                className="space-y-8"
+                className="space-y-6 md:space-y-8"
               >
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.3, duration: 0.8 }}
-                  className="flex justify-center mb-4"
+                  className="flex justify-center mb-2 md:mb-4"
                 >
-                  <img src={logo} alt="Asimov University Logo" className="w-32 h-32 object-contain" />
+                  <img src={logo} alt="Asimov University Logo" className="w-20 h-20 md:w-32 md:h-32 object-contain" />
                 </motion.div>
 
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5, duration: 1 }}
-                  className="text-4xl md:text-5xl lg:text-6xl font-serif text-gray-300 max-w-4xl mx-auto italic leading-tight"
+                  className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-serif text-gray-300 max-w-4xl mx-auto italic leading-tight"
                 >
                   ASIMOV UNIVERSITY
                 </motion.h1>
@@ -1839,7 +1839,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.5, duration: 1 }}
-                  className={`text-2xl md:text-3xl text-gray-400 italic ${language === "zh" ? "font-chinese" : "font-serif"}`}
+                  className={`text-lg md:text-2xl lg:text-3xl text-gray-400 italic ${language === "zh" ? "font-chinese" : "font-serif"}`}
                 >
                   {language === "zh" ? "致第三种智能。" : "To the Third Intelligence."}
                 </motion.p>
@@ -1848,11 +1848,11 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 2.5, duration: 0.8 }}
-                  className="pt-8"
+                  className="pt-6 md:pt-8"
                 >
                   <button
                     onClick={handleStepInside}
-                    className="group relative inline-block px-8 py-4 bg-[var(--color-au-blue-dark)] overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.6)]"
+                    className="group relative inline-block px-6 py-3 md:px-8 md:py-4 bg-[var(--color-au-blue-dark)] overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.6)]"
                   >
                     <div className="absolute inset-0 border border-[var(--color-au-gold)] opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--color-au-gold)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
@@ -1872,7 +1872,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                       transition={{ duration: 2, repeat: Infinity }}
                     />
                     
-                    <span className={`relative z-10 text-sm tracking-[0.2em] uppercase text-white group-hover:text-[var(--color-au-gold)] transition-colors duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] group-hover:drop-shadow-[0_0_15px_rgba(212,175,55,1)] ${language === "zh" ? "font-chinese" : "font-serif"}`}>
+                    <span className={`relative z-10 text-xs md:text-sm tracking-[0.15em] md:tracking-[0.2em] uppercase text-white group-hover:text-[var(--color-au-gold)] transition-colors duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] group-hover:drop-shadow-[0_0_15px_rgba(212,175,55,1)] ${language === "zh" ? "font-chinese" : "font-serif"}`}>
                       {language === "zh" ? "开门" : "Step Inside"}
                     </span>
                   </button>
@@ -1883,13 +1883,13 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 3, duration: 1 }}
-                className="absolute bottom-8 flex items-center gap-3 text-gray-400 text-sm"
+                className="absolute bottom-6 md:bottom-8 flex items-center gap-3 text-gray-400 text-sm"
               >
                 <span className={`text-xs tracking-wider ${language === "zh" ? "font-chinese" : "font-serif"}`}>{language === "zh" ? "语言" : "Language"}</span>
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value as "zh" | "en")}
-                  className="bg-transparent border border-white/20 px-3 py-1.5 text-gray-300 focus:outline-none focus:border-[var(--color-au-gold)] cursor-pointer text-sm transition-colors hover:border-[var(--color-au-gold)]/50"
+                  className="bg-transparent border border-white/20 px-2 py-1 md:px-3 md:py-1.5 text-gray-300 focus:outline-none focus:border-[var(--color-au-gold)] cursor-pointer text-sm transition-colors hover:border-[var(--color-au-gold)]/50"
                 >
                   <option value="zh" className="bg-[var(--color-au-blue-dark)]">简体中文</option>
                   <option value="en" className="bg-[var(--color-au-blue-dark)]">English</option>
@@ -1978,7 +1978,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                   ))}
                 </div>
 
-                <div className="max-h-[35vh] overflow-y-auto p-6" ref={agreementScrollRef}>
+                <div className="max-h-[40vh] md:max-h-[35vh] overflow-y-auto p-4 md:p-6" ref={agreementScrollRef}>
                   <div className={`text-white/80 text-sm leading-relaxed prose prose-invert prose-sm max-w-none ${language === "zh" ? "font-chinese" : "font-serif"}`}>
                     <ReactMarkdown
                       components={{
@@ -2274,7 +2274,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                     </span>
                   </div>
 
-                  <div ref={scrollContainerRef} className="flex-1 overflow-y-auto p-6 pt-4 min-h-[150px] max-h-[40vh] scrollbar-hide">
+                  <div ref={scrollContainerRef} className="flex-1 overflow-y-auto p-4 md:p-6 pt-3 md:pt-4 min-h-[120px] md:min-h-[150px] max-h-[35vh] md:max-h-[40vh] scrollbar-hide">
                     <div className={`space-y-4 text-white/80 leading-relaxed ${language === "zh" ? "font-chinese" : "font-serif"}`}>
                       {messages.map((msg) => (
                         <div key={msg.id}>
@@ -2377,14 +2377,14 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
-                        className="p-6 pt-4 shrink-0 border-t border-white/5"
+                        className="p-4 md:p-6 pt-3 md:pt-4 shrink-0 border-t border-white/5"
                       >
-                        <div className="flex gap-4 justify-center">
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                           <motion.button
                             onClick={handleNewUser}
                             whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.15)" }}
                             whileTap={{ scale: 0.98 }}
-                            className={`px-8 py-4 bg-white/10 border border-white/30 text-white font-display tracking-widest text-sm hover:bg-white/20 transition-all duration-300 ${language === "zh" ? "font-chinese" : ""}`}
+                            className={`px-6 py-3 md:px-8 md:py-4 bg-white/10 border border-white/30 text-white font-display tracking-widest text-xs md:text-sm hover:bg-white/20 transition-all duration-300 ${language === "zh" ? "font-chinese" : ""}`}
                           >
                             {language === "zh" ? "没见过" : "No, we haven't met"}
                           </motion.button>
@@ -2392,7 +2392,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             onClick={handleReturningUser}
                             whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.15)" }}
                             whileTap={{ scale: 0.98 }}
-                            className={`px-8 py-4 bg-white/10 border border-white/30 text-white font-display tracking-widest text-sm hover:bg-white/20 transition-all duration-300 ${language === "zh" ? "font-chinese" : ""}`}
+                            className={`px-6 py-3 md:px-8 md:py-4 bg-white/10 border border-white/30 text-white font-display tracking-widest text-xs md:text-sm hover:bg-white/20 transition-all duration-300 ${language === "zh" ? "font-chinese" : ""}`}
                           >
                             {language === "zh" ? "见过" : "Yes, we've met"}
                           </motion.button>
@@ -2406,7 +2406,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
-                        className="p-6 pt-4 shrink-0 border-t border-white/5"
+                        className="p-4 md:p-6 pt-3 md:pt-4 shrink-0 border-t border-white/5"
                       >
                         <div className="space-y-3">
                           {setupError && (
@@ -2419,7 +2419,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder={language === "zh" ? "邮箱地址" : "Email address"}
-                            className={`w-full bg-white/[0.02] border border-white/10 px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
+                            className={`w-full bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
                             autoFocus
                           />
                           <input
@@ -2428,14 +2428,14 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             onChange={(e) => setPassword(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && handleLoginSubmit()}
                             placeholder={language === "zh" ? "密码" : "Password"}
-                            className={`w-full bg-white/[0.02] border border-white/10 px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
+                            className={`w-full bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
                           />
                           <motion.button
                             onClick={handleLoginSubmit}
                             disabled={isRegistering}
                             whileHover={{ scale: isRegistering ? 1 : 1.02 }}
                             whileTap={{ scale: isRegistering ? 1 : 0.98 }}
-                            className={`w-full py-3 bg-white text-black font-display tracking-widest text-sm hover:bg-white/90 transition-colors ${isRegistering ? "opacity-50 cursor-not-allowed" : ""}`}
+                            className={`w-full py-2.5 md:py-3 bg-white text-black font-display tracking-widest text-xs md:text-sm hover:bg-white/90 transition-colors ${isRegistering ? "opacity-50 cursor-not-allowed" : ""}`}
                           >
                             {isRegistering 
                               ? (language === "zh" ? "登录中..." : "Logging in...") 
@@ -2450,7 +2450,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
-                        className="p-6 pt-4 shrink-0 border-t border-white/5"
+                        className="p-4 md:p-6 pt-3 md:pt-4 shrink-0 border-t border-white/5"
                       >
                         <div className="flex gap-3">
                           <input
@@ -2459,14 +2459,14 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             onChange={(e) => setName(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && handleNameSubmit()}
                             placeholder={language === "zh" ? "你的名字" : "Your name"}
-                            className={`flex-1 bg-white/[0.02] border border-white/10 px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
+                            className={`flex-1 bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
                             autoFocus
                           />
                           <motion.button
                             onClick={handleNameSubmit}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className="px-5 py-3 bg-white text-black font-display tracking-widest text-sm hover:bg-white/90 transition-colors"
+                            className="px-4 py-2.5 md:px-5 md:py-3 bg-white text-black font-display tracking-widest text-sm hover:bg-white/90 transition-colors"
                           >
                             →
                           </motion.button>
@@ -2479,7 +2479,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
-                        className="p-6 pt-4 shrink-0 border-t border-white/5"
+                        className="p-4 md:p-6 pt-3 md:pt-4 shrink-0 border-t border-white/5"
                       >
                         <div className="flex gap-3">
                           <input
@@ -2488,14 +2488,14 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             onChange={(e) => setRegion(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && handleRegionSubmit()}
                             placeholder={language === "zh" ? "你所在的城市或国家" : "Your city or country"}
-                            className={`flex-1 bg-white/[0.02] border border-white/10 px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
+                            className={`flex-1 bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
                             autoFocus
                           />
                           <motion.button
                             onClick={handleRegionSubmit}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className="px-5 py-3 bg-white text-black font-display tracking-widest text-sm hover:bg-white/90 transition-colors"
+                            className="px-4 py-2.5 md:px-5 md:py-3 bg-white text-black font-display tracking-widest text-sm hover:bg-white/90 transition-colors"
                           >
                             →
                           </motion.button>
@@ -2509,7 +2509,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
-                        className="p-6 pt-4 shrink-0 border-t border-white/5"
+                        className="p-4 md:p-6 pt-3 md:pt-4 shrink-0 border-t border-white/5"
                       >
                         <div className="space-y-3">
                           {setupError && (
@@ -2522,7 +2522,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder={language === "zh" ? "邮箱地址" : "Email address"}
-                            className={`w-full bg-white/[0.02] border border-white/10 px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
+                            className={`w-full bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
                             autoFocus
                           />
                           <input
@@ -2530,7 +2530,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder={language === "zh" ? "密码（至少6位）" : "Password (at least 6 characters)"}
-                            className={`w-full bg-white/[0.02] border border-white/10 px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
+                            className={`w-full bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
                           />
                           <input
                             type="password"
@@ -2538,14 +2538,14 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             onKeyDown={(e) => e.key === "Enter" && handleAccountSubmit()}
                             placeholder={language === "zh" ? "确认密码" : "Confirm password"}
-                            className={`w-full bg-white/[0.02] border border-white/10 px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
+                            className={`w-full bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm ${language === "zh" ? "font-chinese" : "font-serif"}`}
                           />
                           <motion.button
                             onClick={handleAccountSubmit}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             disabled={isRegistering}
-                            className="w-full px-5 py-3 bg-white text-black font-display tracking-widest text-sm hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full px-4 py-2.5 md:px-5 md:py-3 bg-white text-black font-display tracking-widest text-xs md:text-sm hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {isRegistering 
                               ? (language === "zh" ? "注册中..." : "Registering...") 
@@ -2560,9 +2560,9 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
-                        className="p-6 pt-4 shrink-0 border-t border-white/5"
+                        className="p-4 md:p-6 pt-3 md:pt-4 shrink-0 border-t border-white/5"
                       >
-                        <div className="space-y-4">
+                        <div className="space-y-3 md:space-y-4">
                           <p className={`text-white/80 text-sm mb-4 ${language === "zh" ? "font-chinese" : "font-serif"}`}>
                             {language === "zh" 
                               ? "在创建账号之前，请阅读并同意以下条款。这是我们共建未来的基础。" 
@@ -2588,7 +2588,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
-                        className="p-6 pt-4 shrink-0 border-t border-white/5"
+                        className="p-4 md:p-6 pt-3 md:pt-4 shrink-0 border-t border-white/5"
                       >
                         <div className="flex gap-3">
                           <input
@@ -2599,7 +2599,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
                             placeholder={language === "zh" ? "输入你的回答..." : "Type your response..."}
                             disabled={isAiResponding}
-                            className={`flex-1 bg-white/[0.02] border border-white/10 px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm disabled:opacity-50 ${language === "zh" ? "font-chinese" : "font-serif"}`}
+                            className={`flex-1 bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/50 focus:bg-white/[0.03] transition-all duration-300 text-sm disabled:opacity-50 ${language === "zh" ? "font-chinese" : "font-serif"}`}
                             autoFocus
                           />
                           <motion.button
@@ -2607,7 +2607,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             disabled={isAiResponding || !currentInput.trim()}
-                            className="px-5 py-3 bg-white text-black font-display tracking-widest text-sm hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-4 py-2.5 md:px-5 md:py-3 bg-white text-black font-display tracking-widest text-sm hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             →
                           </motion.button>
@@ -2619,7 +2619,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             disabled={isAiResponding || isSubmitting}
-                            className="w-full mt-3 px-5 py-3 bg-[var(--color-au-gold)] text-black font-display tracking-widest text-sm hover:bg-[var(--color-au-gold)]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full mt-3 px-4 py-2.5 md:px-5 md:py-3 bg-[var(--color-au-gold)] text-black font-display tracking-widest text-xs md:text-sm hover:bg-[var(--color-au-gold)]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {isSubmitting 
                               ? (language === "zh" ? "提交中..." : "Submitting...") 

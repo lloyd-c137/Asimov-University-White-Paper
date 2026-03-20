@@ -26,7 +26,7 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
-const API_BASE_URL = "http://localhost:3001/api";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 const CURRENT_USER_KEY = "asimov_current_user";
 
 export async function registerUser(data: RegisterRequest): Promise<ApiResponse<UserData>> {

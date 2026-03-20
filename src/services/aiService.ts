@@ -1,8 +1,4 @@
-import lyraSoul from "../../Data/Lyra-soul.md?raw";
-
-const API_URL = "https://api.siliconflow.cn/v1/chat/completions";
-const MODEL = "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B";
-const API_KEY = "sk-puqzrflintylyigipfpybljhlqcysnvolidgnnktwcoiekpe";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 
 export interface ChatMessage {
   role: "system" | "user" | "assistant";
@@ -19,32 +15,20 @@ export async function streamChat(
   messages: ChatMessage[],
   callbacks: StreamCallbacks
 ): Promise<void> {
-  const systemMessage: ChatMessage = {
-    role: "system",
-    content: lyraSoul
-  };
-
-  const allMessages = [systemMessage, ...messages];
-
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(`${API_URL}/ai/chat`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: MODEL,
-        messages: allMessages,
-        stream: true,
-        temperature: 0.7,
-        max_tokens: 4096
+        messages: messages
       })
     });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error?.message || `API error: ${response.status}`);
+      throw new Error(errorData.message || `API error: ${response.status}`);
     }
 
     const reader = response.body?.getReader();
@@ -79,10 +63,9 @@ export async function streamChat(
             const jsonStr = trimmedLine.slice(6);
             const data = JSON.parse(jsonStr);
             
-            const content = data.choices?.[0]?.delta?.content;
-            if (content) {
-              fullResponse += content;
-              callbacks.onToken(content);
+            if (data.content) {
+              fullResponse += data.content;
+              callbacks.onToken(data.content);
             }
           } catch {
             continue;

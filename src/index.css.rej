@@ -1,0 +1,13 @@
+--- src/index.css
++++ src/index.css
+@@ -32,6 +32,10 @@
+   font-family: var(--font-serif);
+ }
+ 
++.font-chinese {
++  font-family: var(--font-chinese);
++}
++
+ .font-display {
+   font-family: var(--font-display);
+ }

@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { 
   Cpu, Palette, TrendingUp, Sigma, Atom, Dna, Gavel, Leaf, Rocket, 
-  BookOpen, Users, Bot, GraduationCap, Vote, Shield, AlertTriangle 
+  BookOpen, Lightbulb, ChevronRight, Quote
 } from "lucide-react";
 
 const fadeInUp = {
@@ -9,430 +10,273 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
 };
 
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12 }
+  }
+};
+
 const colleges = [
   {
     name: "Turing College",
     field: "Computer Science · AI",
+    icon: <Cpu className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "from-blue-600 to-indigo-800",
+    bg: "bg-blue-50",
+    border: "border-blue-200",
     quote: "Understand the science that created your professors — then surpass it.",
-    icon: "Cpu",
-    courses: "Human-Machine Collaborative Systems Design · AI Safety"
+    description: "The study of machine intelligence itself. Students here don't just learn to use AI — they learn to build it, understand its limits, and push what it can become. From neural architectures to reinforcement learning, this is the engineering backbone of Collaborative Intelligence.",
+    courses: "Human-Machine Collaborative Systems Design · AI Safety · Neural Architecture Design",
+    coreQuestion: "How do you build a machine that can truly collaborate?"
   },
   {
     name: "Da Vinci College",
     field: "Art · Design · Creative Writing",
+    icon: <Palette className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "from-rose-600 to-pink-800",
+    bg: "bg-rose-50",
+    border: "border-rose-200",
     quote: "AI can generate ten thousand paintings. Only you know which one makes someone weep.",
-    icon: "Palette",
-    courses: "Human-AI Co-Creation · Originality in the Age of Generative AI"
+    description: "At the intersection of human creativity and generative AI. Da Vinci College trains artists who use AI not as a crutch, but as a collaborator — expanding what human imagination can achieve. The focus is on taste, intention, and the irreplaceable human element in art.",
+    courses: "Human-AI Co-Creation · Originality in the Age of Generative AI · Computational Aesthetics",
+    coreQuestion: "What does creativity mean when machines can also create?"
   },
   {
     name: "Smith College",
     field: "Economics · Business",
+    icon: <TrendingUp className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "from-emerald-600 to-green-800",
+    bg: "bg-emerald-50",
+    border: "border-emerald-200",
     quote: "The scarcest business skill in the AI age: knowing what should not be optimized.",
-    icon: "TrendingUp",
-    courses: "Human-Machine Collaborative Decision Making"
+    description: "When AI can forecast markets and optimize supply chains, the human role shifts from execution to judgment. Smith College cultivates leaders who understand what algorithms cannot — ethics, long-term thinking, and the wisdom to know when efficiency is not the goal.",
+    courses: "Human-Machine Collaborative Decision Making · Algorithmic Economics · Value-Driven Strategy",
+    coreQuestion: "What should never be optimized?"
   },
   {
     name: "Euler College",
     field: "Mathematics · Statistics",
+    icon: <Sigma className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "from-violet-600 to-purple-800",
+    bg: "bg-violet-50",
+    border: "border-violet-200",
     quote: "When AI can prove theorems, a mathematician's value is choosing which theorem is worth proving.",
-    icon: "Sigma",
-    courses: "AI-Assisted Mathematical Discovery"
+    description: "Mathematics in the age of machine reasoning. Euler College explores how AI transforms mathematical discovery — not by replacing mathematicians, but by acting as an amplifier of mathematical intuition. Students learn to ask the questions that machines cannot yet formulate.",
+    courses: "AI-Assisted Mathematical Discovery · Probabilistic Reasoning · Formal Verification",
+    coreQuestion: "How does mathematical discovery change when you have a tireless reasoning partner?"
   },
   {
     name: "Curie College",
     field: "Physics · Chemistry",
+    icon: <Atom className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "from-cyan-600 to-teal-800",
+    bg: "bg-cyan-50",
+    border: "border-cyan-200",
     quote: "AI can simulate a billion experiments. Your value is deciding which experiment is worth running.",
-    icon: "Atom",
-    courses: "AI-Driven Scientific Discovery Methodology"
+    description: "The scientific method supercharged by machine intelligence. Curie College trains scientists who can harness AI for hypothesis generation, experimental design, and data interpretation — while maintaining the rigor and skepticism that defines true science.",
+    courses: "AI-Driven Scientific Discovery Methodology · Computational Physics · Automated Experimentation",
+    coreQuestion: "How does science accelerate when AI becomes a partner in discovery?"
   },
   {
     name: "Darwin College",
     field: "Biology · Medicine",
+    icon: <Dna className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "from-green-600 to-emerald-800",
+    bg: "bg-green-50",
+    border: "border-green-200",
     quote: "AI can diagnose disease. But only you can hold a patient's hand and say: 'Don't be afraid.'",
-    icon: "Dna",
-    courses: "Human-Machine Collaborative Diagnostics"
+    description: "Where AI meets the most human of sciences. Darwin College prepares physicians and biologists who see AI as a diagnostic partner — not a replacement for the human connection that lies at the heart of healing. The focus is on symbiosis between machine precision and human compassion.",
+    courses: "Human-Machine Collaborative Diagnostics · AI-Driven Drug Discovery · Computational Biology",
+    coreQuestion: "How do we preserve humanity in medicine while embracing AI's power?"
   },
   {
     name: "Aristotle College",
     field: "Philosophy · History",
+    icon: <BookOpen className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "from-amber-600 to-orange-800",
+    bg: "bg-amber-50",
+    border: "border-amber-200",
     quote: "At the end of every technical question stands a question about what it means to be human.",
-    icon: "BookOpen",
-    courses: "Existential Philosophy in the AI Age"
+    description: "The conscience of the university. Aristotle College grounds every technological advance in the philosophical and historical context that gives it meaning. Students here explore the deepest questions: consciousness, personhood, agency, and the nature of intelligence itself.",
+    courses: "Existential Philosophy in the AI Age · History of Intelligence · Ethics of Artificial Minds",
+    coreQuestion: "What does it mean to be human when machines think?"
   },
   {
     name: "Montesquieu College",
     field: "Law · Public Policy",
+    icon: <Gavel className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "from-slate-600 to-gray-800",
+    bg: "bg-slate-50",
+    border: "border-slate-200",
     quote: "Rewriting the social contract for human-AI coexistence.",
-    icon: "Gavel",
-    courses: "The Question of AI Legal Personhood"
+    description: "As AI systems gain agency, every legal and policy framework must be re-examined. Montesquieu College prepares the lawyers, policymakers, and advocates who will shape the rules of human-AI society — from algorithmic accountability to digital personhood.",
+    courses: "The Question of AI Legal Personhood · Algorithmic Governance · Digital Rights Framework",
+    coreQuestion: "How do we write laws for beings that are neither human nor property?"
   },
   {
     name: "Carson College",
     field: "Environment · Sustainability",
+    icon: <Leaf className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "from-lime-600 to-green-800",
+    bg: "bg-lime-50",
+    border: "border-lime-200",
     quote: "AI is the most powerful tool for solving the climate crisis. But only humans can decide what to sacrifice.",
-    icon: "Leaf",
-    courses: "AI-Driven Climate Modeling"
+    description: "The planet's most urgent challenges require humanity's most powerful tools. Carson College trains environmental leaders who deploy AI for climate modeling, resource optimization, and ecological restoration — while understanding that technology alone cannot replace political will and ethical choice.",
+    courses: "AI-Driven Climate Modeling · Ecological Systems Optimization · Sustainable Technology Policy",
+    coreQuestion: "How can AI help us save the planet without making us forget why it matters?"
   },
   {
     name: "Von Braun College",
     field: "Aerospace · Space Science",
+    icon: <Rocket className="w-5 h-5 md:w-6 md:h-6" />,
+    color: "from-sky-600 to-blue-800",
+    bg: "bg-sky-50",
+    border: "border-sky-200",
     quote: "On the road to the stars, humans and AI must become the closest of partners.",
-    icon: "Rocket",
-    courses: "Human-Machine Collaboration in Deep Space"
+    description: "Space exploration is the ultimate test of human-machine collaboration. Von Braun College trains the explorers who will venture beyond Earth — where AI handles the impossible complexity of navigation, life support, and data analysis, while humans provide the curiosity, courage, and adaptability that no machine can replicate.",
+    courses: "Human-Machine Collaboration in Deep Space · Autonomous Space Systems · Astrobiology Informatics",
+    coreQuestion: "How do humans and AI survive together where neither can survive alone?"
   }
 ];
 
-const iconComponents: Record<string, React.ReactNode> = {
-  Cpu: <Cpu className="w-5 h-5 md:w-6 md:h-6" />,
-  Palette: <Palette className="w-5 h-5 md:w-6 md:h-6" />,
-  TrendingUp: <TrendingUp className="w-5 h-5 md:w-6 md:h-6" />,
-  Sigma: <Sigma className="w-5 h-5 md:w-6 md:h-6" />,
-  Atom: <Atom className="w-5 h-5 md:w-6 md:h-6" />,
-  Dna: <Dna className="w-5 h-5 md:w-6 md:h-6" />,
-  BookOpen: <BookOpen className="w-5 h-5 md:w-6 md:h-6" />,
-  Gavel: <Gavel className="w-5 h-5 md:w-6 md:h-6" />,
-  Leaf: <Leaf className="w-5 h-5 md:w-6 md:h-6" />,
-  Rocket: <Rocket className="w-5 h-5 md:w-6 md:h-6" />
-};
-
-interface College {
-  name: string;
-  field: string;
-  quote: string;
-  icon: string;
-  courses: string;
-}
-
-function CollegeCarousel({ 
-  colleges, 
-  iconComponents 
-}: { 
-  colleges: College[];
-  iconComponents: Record<string, React.ReactNode>;
-}) {
-  const cardWidth = 320;
-  const gap = 16;
-  const totalWidth = (cardWidth + gap) * colleges.length;
-  
-  return (
-    <div className="relative overflow-hidden -mx-4 px-4 md:mx-0 md:px-0">
-      <motion.div 
-        className="flex gap-4 md:gap-6"
-        animate={{ x: [0, -totalWidth] }}
-        transition={{ 
-          duration: 40, 
-          repeat: Infinity, 
-          ease: "linear",
-        }}
-      >
-        {[...colleges, ...colleges, ...colleges].map((college, index) => (
-          <motion.div
-            key={`${college.name}-${index}`}
-            className="flex-shrink-0 w-[280px] md:w-[360px] bg-white rounded-sm shadow-lg overflow-hidden border border-gray-100 hover:border-[var(--color-au-gold)] transition-all duration-300 hover:shadow-xl group"
-            whileHover={{ y: -8, scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="bg-gradient-to-r from-[var(--color-au-blue-dark)] to-[#1a2a4a] p-4 md:p-6 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-20 h-20 bg-[var(--color-au-gold)] opacity-10 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2"></div>
-              <div className="flex items-center gap-3 md:gap-4">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-[var(--color-au-gold)] to-[#8b7018] flex items-center justify-center text-[var(--color-au-blue-dark)] group-hover:scale-110 transition-transform duration-300">
-                  {iconComponents[college.icon]}
-                </div>
-                <div>
-                  <h3 className="text-white font-display text-base md:text-lg tracking-wide">{college.name}</h3>
-                  <span className="text-[10px] md:text-xs text-[var(--color-au-gold)] uppercase tracking-[0.15em]">{college.field}</span>
-                </div>
-              </div>
-            </div>
-            <div className="p-4 md:p-6 bg-[var(--color-au-cream)]">
-              <p className="text-gray-600 italic text-xs md:text-sm leading-relaxed mb-3 md:mb-4 border-l-2 border-[var(--color-au-gold)] pl-3 md:pl-4">
-                "{college.quote}"
-              </p>
-              <div className="pt-3 md:pt-4 border-t border-[var(--color-au-gold)]/20">
-                <span className="text-[9px] md:text-[10px] font-bold text-[var(--color-au-blue-dark)] uppercase tracking-[0.15em]">Flagship Course</span>
-                <p className="text-gray-700 text-xs md:text-sm mt-1 md:mt-2 font-serif">{college.courses}</p>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
-      
-      <div className="absolute left-0 top-0 bottom-0 w-12 md:w-24 bg-gradient-to-r from-[var(--color-au-cream)] to-transparent pointer-events-none z-10"></div>
-      <div className="absolute right-0 top-0 bottom-0 w-12 md:w-24 bg-gradient-to-l from-[var(--color-au-cream)] to-transparent pointer-events-none z-10"></div>
-    </div>
-  );
-}
-
 export default function Departments() {
   return (
-    <div id="departments" className="bg-[var(--color-au-cream)] pt-8 md:pt-12 pb-12 md:pb-20">
-      {/* Header */}
+    <div id="departments" className="bg-[var(--color-au-cream)] min-h-screen pt-24 md:pt-32 pb-12 md:pb-20">
+      {/* Hero Header */}
       <section className="px-4 mb-12 md:mb-20">
-        <div className="max-w-4xl mx-auto text-center space-y-4 md:space-y-6">
-          <motion.h1 
+        <div className="max-w-5xl mx-auto text-center space-y-4 md:space-y-6">
+          <motion.span
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            className="font-display text-[var(--color-au-accent)] tracking-[0.25em] uppercase text-xs md:text-sm"
+          >
+            Discipline × AI
+          </motion.span>
+          <motion.h1
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display text-[var(--color-au-blue-dark)] leading-tight"
           >
-            Academic <span className="text-[var(--color-au-gold)] italic">Architecture</span>
+            Academic <span className="text-[var(--color-au-accent)] italic">Architecture</span>
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial="hidden"
             animate="visible"
             variants={fadeInUp}
-            className="text-base md:text-xl font-serif text-gray-600 max-w-2xl mx-auto px-2"
+            className="text-base md:text-xl font-serif text-gray-600 max-w-3xl mx-auto px-2 leading-relaxed"
           >
-            Every discipline is deeply integrated with Collaborative Intelligence. We are fundamentally redesigning what each discipline looks like in the age of human-machine collaboration.
+            Every discipline is deeply integrated with Collaborative Intelligence. 
+            Ten colleges, each fundamentally redesigned for the age of human-machine collaboration.
           </motion.p>
         </div>
       </section>
 
-      {/* The CI Core */}
+      {/* The Ten Colleges - Detailed Grid */}
       <section className="px-4 mb-12 md:mb-24">
-        <div className="max-w-6xl mx-auto">
-          <div className="bg-[var(--color-au-blue-dark)] text-white p-6 md:p-10 lg:p-16 rounded-sm relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 right-0 w-32 md:w-64 h-32 md:h-64 bg-[var(--color-au-gold)] opacity-10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-            
-            <div className="relative z-10">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-display mb-4 md:mb-8 border-b border-[var(--color-au-gold)] pb-3 md:pb-4 inline-block">
-                The CI Core
-              </h2>
-              <p className="font-serif text-base md:text-lg text-gray-300 mb-6 md:mb-10 max-w-3xl">
-                Required of all students. This is the "operating system" of Collaborative Intelligence.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                {[
-                  { code: "CI-101", title: "Human-AI Collaboration", q: "How many kinds of relationships can exist?" },
-                  { code: "CI-102", title: "The Human Mind", q: "How do you think?" },
-                  { code: "CI-103", title: "The Machine Mind", q: "How does your AI partner think?" },
-                  { code: "CI-104", title: "Collaboration in Practice", q: "How does 1+1 become 10?" },
-                  { code: "CI-105", title: "Ethics and the Future", q: "What kind of world are we creating?" },
-                ].map((course) => (
-                  <div key={course.code} className="bg-white/5 p-4 md:p-6 border border-white/10 hover:bg-white/10 transition-colors">
-                    <div className="text-[var(--color-au-gold)] font-display text-xs md:text-sm tracking-widest mb-1 md:mb-2">{course.code}</div>
-                    <h3 className="text-lg md:text-xl font-serif mb-2 md:mb-3">{course.title}</h3>
-                    <p className="text-xs md:text-sm text-gray-400 italic">"{course.q}"</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* The Ten Colleges - Carousel */}
-      <section className="px-4 mb-12 md:mb-24 py-8 md:py-12">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8 md:mb-16">
-            <span className="font-display text-[var(--color-au-gold)] tracking-widest uppercase text-xs md:text-sm">Discipline × AI</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display text-[var(--color-au-blue-dark)] mt-2">
-              The Ten Colleges
-            </h2>
-            <p className="text-base md:text-lg font-serif text-gray-600 mt-3 md:mt-4 max-w-2xl mx-auto px-2">
-              Each discipline reimagined for the age of human-machine collaboration
-            </p>
+            <motion.span
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              className="font-display text-[var(--color-au-accent)] tracking-widest uppercase text-xs md:text-sm"
+            >
+              Where disciplines meet intelligence
+            </motion.span>
+            <motion.h2
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeInUp}
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display text-[var(--color-au-blue-dark)] mt-2"
+            >
+              The Ten <span className="italic">Colleges</span>
+            </motion.h2>
           </div>
 
-          <CollegeCarousel colleges={colleges} iconComponents={iconComponents} />
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"
+          >
+            {colleges.map((college, idx) => (
+              <motion.div
+                key={idx}
+                variants={fadeInUp}
+                className="bg-white border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-500 group"
+              >
+                {/* Card Header */}
+                <div className={`bg-gradient-to-r ${college.color} p-5 md:p-8 relative overflow-hidden`}>
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-white opacity-5 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2"></div>
+                  <div className="relative z-10 flex items-center gap-4">
+                    <div className="w-12 h-12 md:w-14 md:h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
+                      {college.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-white font-display text-lg md:text-2xl tracking-wide">{college.name}</h3>
+                      <span className="text-white/70 text-[10px] md:text-xs uppercase tracking-[0.15em] font-body">{college.field}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Body */}
+                <div className="p-5 md:p-8 space-y-4 md:space-y-6">
+                  {/* Description */}
+                  <p className="font-serif text-sm md:text-base text-gray-700 leading-relaxed">
+                    {college.description}
+                  </p>
+
+                  {/* Quote */}
+                  <div className="bg-[var(--color-au-stone)] p-4 md:p-5 border-l-2 border-[var(--color-au-accent)]">
+                    <p className="font-serif text-xs md:text-sm text-gray-600 italic leading-relaxed">
+                      "{college.quote}"
+                    </p>
+                  </div>
+
+                  {/* Courses */}
+                  <div className="pt-3 md:pt-4 border-t border-gray-200">
+                    <span className="font-display text-[10px] md:text-xs tracking-[0.15em] uppercase text-[var(--color-au-accent)] font-bold">Flagship Courses</span>
+                    <p className="font-serif text-xs md:text-sm text-gray-600 mt-1 md:mt-2">{college.courses}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
-      {/* Board of Governors */}
+      {/* Board of Governors Preview */}
       <section className="px-4 mb-12 md:mb-24">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-8 md:mb-16">
-            <span className="font-display text-[var(--color-au-gold)] tracking-widest uppercase text-xs md:text-sm">Human-AI Co-Governance</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display text-[var(--color-au-blue-dark)] mt-2">
-              Board of Governors
-            </h2>
-            <p className="text-base md:text-lg font-serif text-gray-600 mt-3 md:mt-4 max-w-3xl mx-auto px-2">
-              Our Board is not an institution where "humans supervise AI." It is a living experiment in human-AI co-governance.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
-            {/* Human Seats */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              className="bg-white border border-gray-100 p-5 md:p-8 hover:border-[var(--color-au-gold)] transition-all duration-300 hover:shadow-xl"
-            >
-              <div className="flex items-center space-x-3 mb-4 md:mb-6">
-                <div className="p-2 md:p-3 bg-[var(--color-au-blue-dark)] text-white rounded-lg">
-                  <Users className="w-5 h-5 md:w-6 md:h-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg md:text-xl font-display text-[var(--color-au-blue-dark)]">Human Seats</h3>
-                  <span className="text-xs md:text-sm text-gray-500">6 Seats</span>
-                </div>
-              </div>
-              <ul className="space-y-2 md:space-y-3 font-serif text-sm md:text-base text-gray-700">
-                <li className="flex items-start">
-                  <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
-                  <div><strong>Educationalists × 2</strong><br/><span className="text-xs md:text-sm text-gray-500">World-class education innovators</span></div>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
-                  <div><strong>Industry Leaders × 2</strong><br/><span className="text-xs md:text-sm text-gray-500">Technology / Business / Social Enterprise</span></div>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
-                  <div><strong>Ethicist × 1</strong><br/><span className="text-xs md:text-sm text-gray-500">Philosophy / AI Ethics specialist</span></div>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
-                  <div><strong>Student Representative × 1</strong><br/><span className="text-xs md:text-sm text-gray-500">Elected by students · 1-year term</span></div>
-                </li>
-              </ul>
-            </motion.div>
-
-            {/* AI Seats */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              className="bg-[var(--color-au-blue-dark)] text-white p-5 md:p-8 hover:shadow-xl relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-au-gold)] opacity-10 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2"></div>
-              <div className="relative z-10">
-                <div className="flex items-center space-x-3 mb-4 md:mb-6">
-                  <div className="p-2 md:p-3 bg-[var(--color-au-gold)] text-[var(--color-au-blue-dark)] rounded-lg">
-                    <Bot className="w-5 h-5 md:w-6 md:h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg md:text-xl font-display">AI Seats</h3>
-                    <span className="text-xs md:text-sm text-gray-400">3 Seats</span>
-                  </div>
-                </div>
-                <ul className="space-y-2 md:space-y-3 font-serif text-sm md:text-base text-gray-300">
-                  <li className="flex items-start">
-                    <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
-                    <div><strong className="text-white">Athena</strong><br/><span className="text-xs md:text-sm text-gray-400">President · Permanent seat</span></div>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
-                    <div><strong className="text-white">Oracle</strong><br/><span className="text-xs md:text-sm text-gray-400">Assessment System · Data & impartiality</span></div>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
-                    <div><strong className="text-white">Lyra</strong><br/><span className="text-xs md:text-sm text-gray-400">Faculty Secretary · Student ecosystem</span></div>
-                  </li>
-                </ul>
-              </div>
-            </motion.div>
-
-            {/* Academic Seats */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeInUp}
-              className="bg-white border border-gray-100 p-5 md:p-8 hover:border-[var(--color-au-gold)] transition-all duration-300 hover:shadow-xl"
-            >
-              <div className="flex items-center space-x-3 mb-4 md:mb-6">
-                <div className="p-2 md:p-3 bg-[var(--color-au-blue-dark)] text-white rounded-lg">
-                  <GraduationCap className="w-5 h-5 md:w-6 md:h-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg md:text-xl font-display text-[var(--color-au-blue-dark)]">Academic Seats</h3>
-                  <span className="text-xs md:text-sm text-gray-500">2 Seats</span>
-                </div>
-              </div>
-              <ul className="space-y-2 md:space-y-3 font-serif text-sm md:text-base text-gray-700">
-                <li className="flex items-start">
-                  <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
-                  <div><strong>Rotating Dean × 1</strong><br/><span className="text-xs md:text-sm text-gray-500">Rotating among 10 Deans · 6-month term</span></div>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
-                  <div><strong>External Academic Advisor × 1</strong><br/><span className="text-xs md:text-sm text-gray-500">Invited leading scholar · 2-year term</span></div>
-                </li>
-              </ul>
-            </motion.div>
-          </div>
-
-          {/* Tiered Voting System */}
-          <div className="bg-[var(--color-au-stone)] p-5 md:p-8 lg:p-12 border-l-4 border-[var(--color-au-gold)]">
-            <div className="flex items-center space-x-3 mb-4 md:mb-8">
-              <Vote className="w-6 h-6 md:w-8 md:h-8 text-[var(--color-au-gold)]" />
-              <h3 className="text-xl md:text-2xl font-display text-[var(--color-au-blue-dark)]">Tiered Voting System</h3>
-            </div>
-            <p className="font-serif text-sm md:text-base text-gray-600 mb-6 md:mb-8 max-w-3xl">
-              Not all decisions are made the same way. Different categories of decisions require different balances of human and AI authority.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-              {[
-                { 
-                  category: "A", 
-                  title: "Values and Ethics", 
-                  rule: "⅔ majority of human seats", 
-                  icon: <Shield className="w-4 h-4 md:w-5 md:h-5" />,
-                  desc: "AI may vote but hold no veto. Human values must not be determined by algorithms."
-                },
-                { 
-                  category: "B", 
-                  title: "Academic Standards", 
-                  rule: "Simple majority (6 votes)", 
-                  icon: <GraduationCap className="w-4 h-4 md:w-5 md:h-5" />,
-                  desc: "AI's data-driven insights and human educational judgment carry equal weight."
-                },
-                { 
-                  category: "C", 
-                  title: "Operations & Technology", 
-                  rule: "Simple majority + AI advisory", 
-                  icon: <Cpu className="w-4 h-4 md:w-5 md:h-5" />,
-                  desc: "AI holds expert advisory privilege on technical feasibility."
-                },
-                { 
-                  category: "D", 
-                  title: "Emergency Decisions", 
-                  rule: "Athena's temporary authority", 
-                  icon: <AlertTriangle className="w-4 h-4 md:w-5 md:h-5" />,
-                  desc: "Must submit to full Board for ratification within 48 hours."
-                },
-              ].map((item) => (
-                <motion.div 
-                  key={item.category}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={fadeInUp}
-                  className="bg-white p-4 md:p-6 border border-gray-200 hover:border-[var(--color-au-gold)] transition-colors"
-                >
-                  <div className="flex items-start space-x-3 md:space-x-4">
-                    <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 bg-[var(--color-au-blue-dark)] text-white flex items-center justify-center font-display text-xs md:text-sm">
-                      {item.category}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center space-x-2 mb-1 md:mb-2">
-                        {item.icon}
-                        <h4 className="font-display text-sm md:text-base text-[var(--color-au-blue-dark)]">{item.title}</h4>
-                      </div>
-                      <p className="text-xs md:text-sm font-bold text-[var(--color-au-gold)] mb-1 md:mb-2">{item.rule}</p>
-                      <p className="text-xs md:text-sm text-gray-600 font-serif">{item.desc}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Quote */}
-          <motion.div 
+        <div className="max-w-6xl mx-auto text-center">
+          <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="mt-8 md:mt-12 text-center"
           >
-            <blockquote className="text-lg md:text-2xl font-serif text-gray-600 italic max-w-3xl mx-auto px-4">
-              "The Board of Governors is not just a governance structure. It is a living laboratory for human-AI coexistence."
-            </blockquote>
+            <span className="font-display text-[var(--color-au-accent)] tracking-widest uppercase text-xs md:text-sm">Human-AI Co-Governance</span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display text-[var(--color-au-blue-dark)] mt-2">
+              Board of <span className="italic">Governors</span>
+            </h2>
+            <p className="text-base md:text-lg font-serif text-gray-600 mt-3 md:mt-4 max-w-2xl mx-auto">
+              6 human seats + 3 AI seats. A living experiment in co-governance.
+            </p>
+            <div className="mt-6 md:mt-8">
+              <Link
+                to="/board"
+                className="group inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-au-blue-dark)] text-white font-display text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-[var(--color-au-accent)] transition-all duration-300"
+              >
+                Meet the Board
+                <ChevronRight className="w-3 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

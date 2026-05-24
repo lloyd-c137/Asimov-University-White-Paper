@@ -18,21 +18,21 @@ export default function About() {
               Someone who can create what neither human nor machine could create alone.
             </p>
           </div>
-          <div className="order-1 md:order-2 bg-[var(--color-au-stone)] p-6 md:p-10 border-l-4 border-[var(--color-au-gold)]">
+          <div className="order-1 md:order-2 bg-[var(--color-au-stone)] p-6 md:p-10 border-l-4 border-[var(--color-au-accent)]">
             <h3 className="text-xl md:text-2xl font-display text-[var(--color-au-blue-dark)] mb-3 md:mb-4">
               Our Mission
             </h3>
             <ul className="space-y-3 md:space-y-4 font-serif text-sm md:text-base text-gray-700">
               <li className="flex items-start">
-                <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
+                <span className="text-[var(--color-au-accent)] mr-2 mt-1">•</span>
                 <span>To train the next generation of AI architects and ethicists.</span>
               </li>
               <li className="flex items-start">
-                <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
+                <span className="text-[var(--color-au-accent)] mr-2 mt-1">•</span>
                 <span>To push the boundaries of what is possible in AI research.</span>
               </li>
               <li className="flex items-start">
-                <span className="text-[var(--color-au-gold)] mr-2 mt-1">•</span>
+                <span className="text-[var(--color-au-accent)] mr-2 mt-1">•</span>
                 <span>To provide ethical frameworks for the global deployment of AI.</span>
               </li>
             </ul>

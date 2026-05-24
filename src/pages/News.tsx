@@ -43,7 +43,7 @@ export default function News() {
             variants={fadeInUp}
             className="text-5xl md:text-7xl font-display text-[var(--color-au-blue-dark)]"
           >
-            News & <span className="text-[var(--color-au-gold)] italic">Perspectives</span>
+            News & <span className="text-[var(--color-au-accent)] italic">Perspectives</span>
           </motion.h1>
           <motion.p 
             initial="hidden"
@@ -63,11 +63,11 @@ export default function News() {
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-au-blue-dark)] to-transparent z-10"></div>
             {/* Abstract Background */}
             <div className="absolute inset-0 opacity-30">
-                <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[var(--color-au-gold)] via-transparent to-transparent"></div>
+                <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-[var(--color-au-accent)] via-transparent to-transparent"></div>
             </div>
             
             <div className="relative z-20 p-10 md:p-16 max-w-2xl">
-              <div className="flex items-center space-x-2 text-[var(--color-au-gold)] mb-4">
+              <div className="flex items-center space-x-2 text-[var(--color-au-accent)] mb-4">
                 <Calendar className="w-4 h-4" />
                 <span className="text-sm font-display tracking-widest uppercase">March 15, 2026</span>
               </div>
@@ -77,7 +77,7 @@ export default function News() {
               <p className="font-serif text-lg text-gray-300 mb-8">
                 We announce the founding of the world's first university dedicated entirely to the study, development, and ethical application of Artificial Intelligence.
               </p>
-              <button className="flex items-center space-x-2 text-[var(--color-au-gold)] hover:text-white transition-colors font-display uppercase tracking-widest text-sm group">
+              <button className="flex items-center space-x-2 text-[var(--color-au-accent)] hover:text-white transition-colors font-display uppercase tracking-widest text-sm group">
                 <span>Read Whitepaper</span>
                 <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
               </button>
@@ -96,7 +96,7 @@ export default function News() {
             <p className="font-serif text-gray-500 mt-2">From Zero to One Hundred Million.</p>
           </div>
 
-          <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[var(--color-au-gold)] before:to-transparent">
+          <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-[var(--color-au-accent)] before:to-transparent">
             {[
               { phase: "Alpha", time: "Year 0–1", milestones: "CI Core development · First 3 colleges online · 1,000 beta students" },
               { phase: "Beta", time: "Year 1–2", milestones: "All 10 colleges online · First CI Certificates issued · 100,000 students" },
@@ -105,7 +105,7 @@ export default function News() {
               { phase: "Vision", time: "Year 5–10", milestones: "World's largest CI education institution · 100,000,000 students" }
             ].map((item) => (
               <div key={item.phase} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-[var(--color-au-stone)] group-hover:bg-[var(--color-au-gold)] group-hover:text-white transition-colors shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full border border-white bg-[var(--color-au-stone)] group-hover:bg-[var(--color-au-accent)] group-hover:text-white transition-colors shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
                   <div className="w-3 h-3 bg-[var(--color-au-blue-dark)] rounded-full"></div>
                 </div>
                 <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-6 rounded border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
@@ -124,11 +124,11 @@ export default function News() {
       {/* Stories from the Future */}
       <section className="px-4 bg-[var(--color-au-stone)] py-24 relative overflow-hidden">
         {/* Background Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-au-gold)]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-au-accent)]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <span className="font-display text-[var(--color-au-gold)] tracking-widest uppercase text-sm">Visions</span>
+            <span className="font-display text-[var(--color-au-accent)] tracking-widest uppercase text-sm">Visions</span>
             <h2 className="text-4xl md:text-5xl font-display text-[var(--color-au-blue-dark)] mt-2">
               Stories from the Future
             </h2>
@@ -141,11 +141,11 @@ export default function News() {
                 initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className="bg-white p-8 md:p-10 shadow-sm hover:shadow-2xl transition-all duration-500 group border-l-4 border-transparent hover:border-[var(--color-au-gold)]"
+                className="bg-white p-8 md:p-10 shadow-sm hover:shadow-2xl transition-all duration-500 group border-l-4 border-transparent hover:border-[var(--color-au-accent)]"
               >
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center space-x-3 text-[var(--color-au-blue-dark)]">
-                    <div className="p-2 bg-[var(--color-au-stone)] rounded-full group-hover:bg-[var(--color-au-gold)] group-hover:text-white transition-colors">
+                    <div className="p-2 bg-[var(--color-au-stone)] rounded-full group-hover:bg-[var(--color-au-accent)] group-hover:text-white transition-colors">
                       <Globe className="w-4 h-4" />
                     </div>
                     <span className="font-display tracking-widest uppercase text-xs font-bold">{story.location}</span>
@@ -156,7 +156,7 @@ export default function News() {
                   </div>
                 </div>
                 <div className="relative">
-                  <span className="absolute -top-4 -left-2 text-6xl font-serif text-[var(--color-au-gold)]/20">"</span>
+                  <span className="absolute -top-4 -left-2 text-6xl font-serif text-[var(--color-au-accent)]/20">"</span>
                   <p className="text-gray-700 font-serif text-lg leading-relaxed relative z-10 pl-4">
                     {story.content}
                   </p>
@@ -171,7 +171,7 @@ export default function News() {
       <section className="px-4 py-24 bg-[var(--color-au-blue-dark)] text-white overflow-hidden relative">
         {/* Background Decorative Elements */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-au-gold)] rounded-full blur-[150px]"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-au-accent)] rounded-full blur-[150px]"></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -179,7 +179,7 @@ export default function News() {
             <motion.span 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
-              className="font-display text-[var(--color-au-gold)] tracking-[0.4em] uppercase text-sm"
+              className="font-display text-[var(--color-au-accent)] tracking-[0.4em] uppercase text-sm"
             >
               Fellow Travelers
             </motion.span>
@@ -188,7 +188,7 @@ export default function News() {
               whileInView={{ opacity: 1, y: 0 }}
               className="text-4xl md:text-6xl font-display mt-4"
             >
-              Who We <span className="italic text-[var(--color-au-gold)]">Need</span>
+              Who We <span className="italic text-[var(--color-au-accent)]">Need</span>
             </motion.h2>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -246,26 +246,26 @@ export default function News() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -8 }}
-                className="group bg-white/5 border border-white/10 p-8 hover:bg-white/10 hover:border-[var(--color-au-gold)]/50 transition-all duration-300 relative overflow-hidden"
+                className="group bg-white/5 border border-white/10 p-8 hover:bg-white/10 hover:border-[var(--color-au-accent)]/50 transition-all duration-300 relative overflow-hidden"
               >
                 {/* Hover Glow Effect */}
-                <div className="absolute -right-4 -top-4 w-24 h-24 bg-[var(--color-au-gold)]/10 rounded-full blur-2xl group-hover:bg-[var(--color-au-gold)]/20 transition-all duration-500"></div>
+                <div className="absolute -right-4 -top-4 w-24 h-24 bg-[var(--color-au-accent)]/10 rounded-full blur-2xl group-hover:bg-[var(--color-au-accent)]/20 transition-all duration-500"></div>
                 
                 <div className="flex items-center justify-between mb-6">
-                  <div className="p-3 bg-[var(--color-au-blue-dark)] text-[var(--color-au-gold)] border border-[var(--color-au-gold)]/30 rounded-sm group-hover:scale-110 transition-transform duration-300">
+                  <div className="p-3 bg-[var(--color-au-blue-dark)] text-[var(--color-au-accent)] border border-[var(--color-au-accent)]/30 rounded-sm group-hover:scale-110 transition-transform duration-300">
                     {role.icon}
                   </div>
                   <span className="text-[10px] font-display tracking-[0.2em] text-gray-500 uppercase">{role.tag}</span>
                 </div>
                 
-                <h3 className="text-xl font-display mb-4 text-white group-hover:text-[var(--color-au-gold)] transition-colors">
+                <h3 className="text-xl font-display mb-4 text-white group-hover:text-[var(--color-au-accent)] transition-colors">
                   {role.title}
                 </h3>
                 <p className="font-serif text-gray-400 text-sm leading-relaxed mb-6">
                   {role.desc}
                 </p>
                 
-                <Link to="/apply" className="text-[var(--color-au-gold)] text-xs font-display tracking-widest uppercase flex items-center space-x-2 group/btn">
+                <Link to="/apply" className="text-[var(--color-au-accent)] text-xs font-display tracking-widest uppercase flex items-center space-x-2 group/btn">
                   <span>Enlist Now</span>
                   <ArrowRight className="w-3 h-3 transform group-hover/btn:translate-x-1 transition-transform" />
                 </Link>
@@ -277,14 +277,14 @@ export default function News() {
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="mt-20 p-10 md:p-16 bg-gradient-to-br from-[var(--color-au-gold)]/20 to-transparent border border-[var(--color-au-gold)] shadow-2xl relative"
+            className="mt-20 p-10 md:p-16 bg-gradient-to-br from-[var(--color-au-accent)]/20 to-transparent border border-[var(--color-au-accent)] shadow-2xl relative"
           >
-            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[var(--color-au-gold)]"></div>
-            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[var(--color-au-gold)]"></div>
+            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-[var(--color-au-accent)]"></div>
+            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-[var(--color-au-accent)]"></div>
             
             <div className="flex flex-col md:flex-row items-center justify-between gap-10">
               <div className="flex-1 text-center md:text-left">
-                <div className="flex items-center justify-center md:justify-start space-x-3 text-[var(--color-au-gold)] mb-4">
+                <div className="flex items-center justify-center md:justify-start space-x-3 text-[var(--color-au-accent)] mb-4">
                   <Users className="w-6 h-6" />
                   <span className="font-display tracking-widest uppercase text-sm">Our First Students</span>
                 </div>
@@ -296,14 +296,14 @@ export default function News() {
               </div>
               <div className="shrink-0">
                 <Link to="/apply" className="group relative inline-block px-12 py-5 bg-[var(--color-au-blue-dark)] overflow-hidden transition-all duration-300 hover:scale-110 hover:shadow-[0_0_30px_rgba(37,99,235,0.6)]">
-                  <div className="absolute inset-0 border border-[var(--color-au-gold)] opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[var(--color-au-gold)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
-                  <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[var(--color-au-gold)]"></div>
-                  <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[var(--color-au-gold)]"></div>
-                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[var(--color-au-gold)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
+                  <div className="absolute inset-0 border border-[var(--color-au-accent)] opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[var(--color-au-accent)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
+                  <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[var(--color-au-accent)]"></div>
+                  <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[var(--color-au-accent)]"></div>
+                  <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[var(--color-au-accent)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
                   
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-au-gold)]/60 to-transparent skew-x-12"
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-au-accent)]/60 to-transparent skew-x-12"
                     animate={{ x: ["-150%", "150%"] }}
                     transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.5 }}
                   />
@@ -314,7 +314,7 @@ export default function News() {
                     transition={{ duration: 2, repeat: Infinity }}
                   />
                   
-                  <span className="relative z-10 font-display text-xl tracking-[0.3em] uppercase text-white group-hover:text-[var(--color-au-gold)] transition-colors duration-300 drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] group-hover:drop-shadow-[0_0_20px_rgba(212,175,55,1)]">
+                  <span className="relative z-10 font-display text-xl tracking-[0.3em] uppercase text-white group-hover:text-[var(--color-au-accent)] transition-colors duration-300 drop-shadow-[0_0_15px_rgba(255,255,255,0.8)] group-hover:drop-shadow-[0_0_20px_rgba(212,175,55,1)]">
                     APPLY
                   </span>
                 </Link>

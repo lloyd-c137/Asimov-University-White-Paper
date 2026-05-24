@@ -4,7 +4,7 @@
   --font-display: "Cinzel", serif;
   --font-serif: "Playfair Display", serif;
   --font-body: "Cormorant Garamond", serif;
-  --font-chinese: "SimSun", "STSong", serif;
+  --font-chinese: "Noto Serif SC", serif;
   
   --color-au-accent: #2563eb;
   --color-au-accent-light: #dbeafe;

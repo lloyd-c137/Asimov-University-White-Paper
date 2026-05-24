@@ -26,7 +26,7 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "/api";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
 const CURRENT_USER_KEY = "asimov_current_user";
 
 export async function registerUser(data: RegisterRequest): Promise<ApiResponse<UserData>> {
@@ -49,14 +49,15 @@ export async function registerUser(data: RegisterRequest): Promise<ApiResponse<U
     }
 
     if (result.success && result.user) {
-      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(result.user));
+      setCurrentUser(result.user);
     }
 
     return result;
   } catch (error) {
+    console.error("Registration error:", error);
     return {
       error: "Network error",
-      message: "Failed to connect to server",
+      message: "Unable to connect to server",
     };
   }
 }
@@ -76,62 +77,65 @@ export async function loginUser(data: LoginRequest): Promise<ApiResponse<UserDat
     if (!response.ok) {
       return {
         error: result.error || "Login failed",
-        message: result.message || "Failed to login",
+        message: result.message || "Invalid credentials",
       };
     }
 
     if (result.success && result.user) {
-      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(result.user));
+      setCurrentUser(result.user);
     }
 
     return result;
   } catch (error) {
+    console.error("Login error:", error);
     return {
       error: "Network error",
-      message: "Failed to connect to server",
+      message: "Unable to connect to server",
     };
   }
 }
 
-export function getCurrentUser(): UserData | null {
-  const stored = localStorage.getItem(CURRENT_USER_KEY);
-  if (stored) {
-    try {
-      return JSON.parse(stored);
-    } catch {
-      return null;
+export async function getUserById(id: string): Promise<ApiResponse<UserData>> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/${id}`);
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        error: result.error || "User not found",
+        message: result.message || "Failed to get user",
+      };
     }
+
+    return result;
+  } catch (error) {
+    console.error("Get user error:", error);
+    return {
+      error: "Network error",
+      message: "Unable to connect to server",
+    };
   }
-  return null;
 }
 
-export function setCurrentUser(user: UserData | null): void {
-  if (user) {
-    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
-  } else {
-    localStorage.removeItem(CURRENT_USER_KEY);
-  }
+export function setCurrentUser(user: UserData): void {
+  localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+}
+
+export function getCurrentUser(): UserData | null {
+  const data = localStorage.getItem(CURRENT_USER_KEY);
+  return data ? JSON.parse(data) : null;
 }
 
 export function clearCurrentUser(): void {
   localStorage.removeItem(CURRENT_USER_KEY);
 }
 
-export function validateEmail(email: string): { valid: boolean; message: string } {
+export function validateEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email) {
-    return { valid: false, message: "邮箱地址不能为空" };
-  }
-  if (!emailRegex.test(email)) {
-    return { valid: false, message: "请输入有效的邮箱地址" };
-  }
-  return { valid: true, message: "" };
+  return emailRegex.test(email);
 }
 
 export function validatePassword(password: string): { valid: boolean; message: string } {
-  if (!password) {
-    return { valid: false, message: "密码不能为空" };
-  }
   if (password.length < 6) {
     return { valid: false, message: "密码至少需要6个字符" };
   }

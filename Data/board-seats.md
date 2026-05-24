@@ -18,7 +18,7 @@
 ```
 ├── Athena (President · Permanent seat)
 ├── Oracle (Assessment System · Representing data and impartiality)
-└── Agora (Community System · Representing the student ecosystem)
+└── Lyra (Faculty Secretary · Student ecosystem)
 ```
 
 ### Academic Seats (2)

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../assets/logo.png";
+import logo from "../assets/newlogo.png";
 import EmailInbox from "../components/EmailInbox";
 
-const API_URL = import.meta.env.VITE_API_URL || "/api";
+const API_URL = "http://localhost:3001/api";
 const ADMIN_CREDENTIALS = { username: "asimov2025", password: "asimov2025" };
 
 interface User {
@@ -681,7 +681,7 @@ export default function Admin() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="Username"
-                    className="w-full bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-au-gold)]/50 focus:bg-white/[0.03] transition-all duration-300 text-sm"
+                    className="w-full bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-au-accent)]/50 focus:bg-white/[0.03] transition-all duration-300 text-sm"
                   />
                 </motion.div>
                 <motion.div
@@ -694,7 +694,7 @@ export default function Admin() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
-                    className="w-full bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-au-gold)]/50 focus:bg-white/[0.03] transition-all duration-300 text-sm"
+                    className="w-full bg-white/[0.02] border border-white/10 px-3 py-2.5 md:px-4 md:py-3 text-white placeholder-white/30 focus:outline-none focus:border-[var(--color-au-accent)]/50 focus:bg-white/[0.03] transition-all duration-300 text-sm"
                   />
                 </motion.div>
 
@@ -721,7 +721,7 @@ export default function Admin() {
                   className="w-full py-3 bg-white text-black font-display tracking-widest text-sm hover:bg-white/90 transition-colors relative overflow-hidden group"
                 >
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-au-gold)]/30 to-transparent skew-x-12"
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-au-accent)]/30 to-transparent skew-x-12"
                     animate={{ x: ["-150%", "150%"] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
                   />
@@ -766,14 +766,14 @@ export default function Admin() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="lg:hidden fixed left-0 top-0 bottom-0 w-64 min-h-screen border-r border-[var(--color-au-gold)]/20 bg-[var(--color-au-blue-dark)]/95 backdrop-blur-xl flex flex-col shrink-0 shadow-2xl z-40"
+              className="lg:hidden fixed left-0 top-0 bottom-0 w-64 min-h-screen border-r border-[var(--color-au-accent)]/20 bg-[var(--color-au-blue-dark)]/95 backdrop-blur-xl flex flex-col shrink-0 shadow-2xl z-40"
             >
-              <div className="p-6 border-b border-[var(--color-au-gold)]/20">
+              <div className="p-6 border-b border-[var(--color-au-accent)]/20">
                 <div className="flex items-center gap-3">
                   <img src={logo} alt="Asimov University" className="w-10 h-10 object-contain" />
                   <div>
                     <h1 className="text-white font-serif text-lg tracking-wide">Asimov</h1>
-                    <p className="text-[var(--color-au-gold)] text-xs font-display tracking-widest uppercase">{t.adminPortal}</p>
+                    <p className="text-[var(--color-au-accent)] text-xs font-display tracking-widest uppercase">{t.adminPortal}</p>
                   </div>
                 </div>
               </div>
@@ -783,7 +783,7 @@ export default function Admin() {
                   whileHover={{ x: 4 }}
                   className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
                     activeSection === "dashboard"
-                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                       : "text-white/50 hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -798,7 +798,7 @@ export default function Admin() {
                   whileHover={{ x: 4 }}
                   className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
                     activeSection === "applications"
-                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                       : "text-white/50 hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -818,7 +818,7 @@ export default function Admin() {
                   whileHover={{ x: 4 }}
                   className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
                     activeSection === "users"
-                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                       : "text-white/50 hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -833,7 +833,7 @@ export default function Admin() {
                   whileHover={{ x: 4 }}
                   className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
                     activeSection === "logs"
-                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                       : "text-white/50 hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -848,7 +848,7 @@ export default function Admin() {
                   whileHover={{ x: 4 }}
                   className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
                     activeSection === "templates"
-                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                       : "text-white/50 hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -863,7 +863,7 @@ export default function Admin() {
                   whileHover={{ x: 4 }}
                   className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
                     activeSection === "email"
-                      ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                      ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                       : "text-white/50 hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -873,7 +873,7 @@ export default function Admin() {
                   {language === "zh" ? "邮件收件箱" : "Email Inbox"}
                 </motion.button>
               </nav>
-              <div className="p-4 border-t border-[var(--color-au-gold)]/20 space-y-2">
+              <div className="p-4 border-t border-[var(--color-au-accent)]/20 space-y-2">
                 <motion.button
                   onClick={() => { setShowSettings(true); setSidebarOpen(false); }}
                   whileHover={{ x: 4 }}
@@ -901,13 +901,13 @@ export default function Admin() {
         )}
       </AnimatePresence>
 
-      <aside className="hidden lg:flex relative z-20 w-64 min-h-screen border-r border-[var(--color-au-gold)]/20 bg-[var(--color-au-blue-dark)]/90 backdrop-blur-xl flex-col shrink-0 shadow-2xl">
-        <div className="p-6 border-b border-[var(--color-au-gold)]/20">
+      <aside className="hidden lg:flex relative z-20 w-64 min-h-screen border-r border-[var(--color-au-accent)]/20 bg-[var(--color-au-blue-dark)]/90 backdrop-blur-xl flex-col shrink-0 shadow-2xl">
+        <div className="p-6 border-b border-[var(--color-au-accent)]/20">
           <div className="flex items-center gap-3">
             <img src={logo} alt="Asimov University" className="w-10 h-10 object-contain" />
             <div>
               <h1 className="text-white font-serif text-lg tracking-wide">Asimov</h1>
-              <p className="text-[var(--color-au-gold)] text-xs font-display tracking-widest uppercase">{t.adminPortal}</p>
+              <p className="text-[var(--color-au-accent)] text-xs font-display tracking-widest uppercase">{t.adminPortal}</p>
             </div>
           </div>
         </div>
@@ -918,7 +918,7 @@ export default function Admin() {
             whileHover={{ x: 4 }}
             className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
               activeSection === "dashboard"
-                ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                 : "text-white/50 hover:text-white hover:bg-white/5"
             }`}
           >
@@ -933,7 +933,7 @@ export default function Admin() {
             whileHover={{ x: 4 }}
             className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
               activeSection === "applications"
-                ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                 : "text-white/50 hover:text-white hover:bg-white/5"
             }`}
           >
@@ -956,7 +956,7 @@ export default function Admin() {
             whileHover={{ x: 4 }}
             className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
               activeSection === "users"
-                ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                 : "text-white/50 hover:text-white hover:bg-white/5"
             }`}
           >
@@ -974,7 +974,7 @@ export default function Admin() {
             whileHover={{ x: 4 }}
             className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
               activeSection === "logs"
-                ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                 : "text-white/50 hover:text-white hover:bg-white/5"
             }`}
           >
@@ -992,7 +992,7 @@ export default function Admin() {
             whileHover={{ x: 4 }}
             className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
               activeSection === "templates"
-                ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                 : "text-white/50 hover:text-white hover:bg-white/5"
             }`}
           >
@@ -1007,7 +1007,7 @@ export default function Admin() {
             whileHover={{ x: 4 }}
             className={`w-full text-left px-4 py-3 rounded-sm text-sm transition-colors flex items-center gap-3 ${
               activeSection === "email"
-                ? "bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] border-l-2 border-[var(--color-au-gold)]"
+                ? "bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] border-l-2 border-[var(--color-au-accent)]"
                 : "text-white/50 hover:text-white hover:bg-white/5"
             }`}
           >
@@ -1018,7 +1018,7 @@ export default function Admin() {
           </motion.button>
         </nav>
 
-        <div className="p-4 border-t border-[var(--color-au-gold)]/20 space-y-2">
+        <div className="p-4 border-t border-[var(--color-au-accent)]/20 space-y-2">
           <motion.button
             onClick={() => setShowSettings(true)}
             whileHover={{ x: 4 }}
@@ -1258,7 +1258,7 @@ export default function Admin() {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <button 
                               onClick={() => fetchApplicationDetails(app.id)}
-                              className="text-white text-sm hover:text-[var(--color-au-gold)] transition-colors text-left"
+                              className="text-white text-sm hover:text-[var(--color-au-accent)] transition-colors text-left"
                             >
                               {app.name}
                             </button>
@@ -1352,7 +1352,7 @@ export default function Admin() {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <button 
                               onClick={() => setSelectedUser(user)}
-                              className="text-white text-sm hover:text-[var(--color-au-gold)] transition-colors text-left"
+                              className="text-white text-sm hover:text-[var(--color-au-accent)] transition-colors text-left"
                             >
                               {user.name}
                             </button>
@@ -1520,7 +1520,7 @@ export default function Admin() {
                     setEditingTemplate(null);
                     setShowTemplateModal(true);
                   }}
-                  className="px-4 py-2 bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] text-xs rounded-sm border border-[var(--color-au-gold)]/30 hover:bg-[var(--color-au-gold)]/30 transition-colors"
+                  className="px-4 py-2 bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] text-xs rounded-sm border border-[var(--color-au-accent)]/30 hover:bg-[var(--color-au-accent)]/30 transition-colors"
                 >
                   + {t.addTemplate}
                 </motion.button>
@@ -1701,7 +1701,7 @@ export default function Admin() {
                     whileTap={{ scale: 0.98 }}
                     onClick={() => sendAdmissionEmail(selectedApplication)}
                     disabled={sendingEmail || selectedApplication.status === 'pending'}
-                    className="w-full py-2.5 bg-[var(--color-au-gold)]/20 text-[var(--color-au-gold)] text-xs hover:bg-[var(--color-au-gold)]/30 transition-colors rounded-sm border border-[var(--color-au-gold)]/30 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full py-2.5 bg-[var(--color-au-accent)]/20 text-[var(--color-au-accent)] text-xs hover:bg-[var(--color-au-accent)]/30 transition-colors rounded-sm border border-[var(--color-au-accent)]/30 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -1774,11 +1774,11 @@ export default function Admin() {
                           className={`p-4 rounded-sm ${
                             msg.role === 'user' 
                               ? 'bg-white/[0.03] border-l-2 border-white/30 ml-8' 
-                              : 'bg-[var(--color-au-gold)]/[0.05] border-l-2 border-[var(--color-au-gold)]/40 mr-8'
+                              : 'bg-[var(--color-au-accent)]/[0.05] border-l-2 border-[var(--color-au-accent)]/40 mr-8'
                           }`}
                         >
                           <div className="flex items-center gap-2 mb-2">
-                            <span className={`text-xs font-medium ${msg.role === 'user' ? 'text-white/60' : 'text-[var(--color-au-gold)]/70'}`}>
+                            <span className={`text-xs font-medium ${msg.role === 'user' ? 'text-white/60' : 'text-[var(--color-au-accent)]/70'}`}>
                               {msg.role === 'user' ? 'Applicant' : 'Lyra'}
                             </span>
                           </div>
@@ -1800,7 +1800,7 @@ export default function Admin() {
                   <div className="border-t border-white/10 shrink-0">
                     <div className="p-5 border-b border-white/10">
                       <h4 className="text-white font-medium flex items-center gap-2">
-                        <span className="text-[var(--color-au-gold)]">✦</span>
+                        <span className="text-[var(--color-au-accent)]">✦</span>
                         {language === "zh" ? "Lyra 评估报告" : "Lyra Evaluation Report"}
                       </h4>
                       <p className="text-white/40 text-xs mt-1">
@@ -2123,7 +2123,7 @@ export default function Admin() {
                     }
                   }}
                   disabled={!editingTemplate?.name || !editingTemplate?.subject || !editingTemplate?.body}
-                  className="flex-1 py-2 bg-[var(--color-au-gold)] text-black text-sm hover:bg-[var(--color-au-gold)]/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 py-2 bg-[var(--color-au-accent)] text-black text-sm hover:bg-[var(--color-au-accent)]/90 transition-colors rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {t.saveTemplate}
                 </motion.button>

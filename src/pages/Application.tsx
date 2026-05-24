@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../assets/logo.png";
+import logo from "../assets/newlogo.png";
 import { streamChat, ChatMessage } from "../services/aiService";
 import { 
   registerUser,
@@ -1804,7 +1804,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                 transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               />
               <motion.div 
-                className="absolute w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-[var(--color-au-gold)] rounded-full blur-[120px] md:blur-[180px] opacity-20 -bottom-10 md:-bottom-20 -left-10 md:-left-20"
+                className="absolute w-[300px] h-[300px] md:w-[600px] md:h-[600px] bg-[var(--color-au-accent)] rounded-full blur-[120px] md:blur-[180px] opacity-20 -bottom-10 md:-bottom-20 -left-10 md:-left-20"
                 animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
                 transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
               />
@@ -1854,14 +1854,14 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                     onClick={handleStepInside}
                     className="group relative inline-block px-6 py-3 md:px-8 md:py-4 bg-[var(--color-au-blue-dark)] overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.6)]"
                   >
-                    <div className="absolute inset-0 border border-[var(--color-au-gold)] opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--color-au-gold)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
-                    <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--color-au-gold)]"></div>
-                    <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--color-au-gold)]"></div>
-                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--color-au-gold)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
+                    <div className="absolute inset-0 border border-[var(--color-au-accent)] opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--color-au-accent)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
+                    <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--color-au-accent)]"></div>
+                    <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--color-au-accent)]"></div>
+                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--color-au-accent)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
                     
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-au-gold)]/60 to-transparent skew-x-12"
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-au-accent)]/60 to-transparent skew-x-12"
                       animate={{ x: ["-150%", "150%"] }}
                       transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.5 }}
                     />
@@ -1872,7 +1872,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                       transition={{ duration: 2, repeat: Infinity }}
                     />
                     
-                    <span className={`relative z-10 text-xs md:text-sm tracking-[0.15em] md:tracking-[0.2em] uppercase text-white group-hover:text-[var(--color-au-gold)] transition-colors duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] group-hover:drop-shadow-[0_0_15px_rgba(212,175,55,1)] ${language === "zh" ? "font-chinese" : "font-serif"}`}>
+                    <span className={`relative z-10 text-xs md:text-sm tracking-[0.15em] md:tracking-[0.2em] uppercase text-white group-hover:text-[var(--color-au-accent)] transition-colors duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] group-hover:drop-shadow-[0_0_15px_rgba(212,175,55,1)] ${language === "zh" ? "font-chinese" : "font-serif"}`}>
                       {language === "zh" ? "开门" : "Step Inside"}
                     </span>
                   </button>
@@ -1889,7 +1889,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value as "zh" | "en")}
-                  className="bg-transparent border border-white/20 px-2 py-1 md:px-3 md:py-1.5 text-gray-300 focus:outline-none focus:border-[var(--color-au-gold)] cursor-pointer text-sm transition-colors hover:border-[var(--color-au-gold)]/50"
+                  className="bg-transparent border border-white/20 px-2 py-1 md:px-3 md:py-1.5 text-gray-300 focus:outline-none focus:border-[var(--color-au-accent)] cursor-pointer text-sm transition-colors hover:border-[var(--color-au-accent)]/50"
                 >
                   <option value="zh" className="bg-[var(--color-au-blue-dark)]">简体中文</option>
                   <option value="en" className="bg-[var(--color-au-blue-dark)]">English</option>
@@ -1920,7 +1920,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                 transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               />
               <motion.div 
-                className="absolute w-[600px] h-[600px] bg-[var(--color-au-gold)] rounded-full blur-[180px] opacity-20 -bottom-20 -left-20"
+                className="absolute w-[600px] h-[600px] bg-[var(--color-au-accent)] rounded-full blur-[180px] opacity-20 -bottom-20 -left-20"
                 animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
                 transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
               />
@@ -1969,7 +1969,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                       }}
                       className={`flex-1 py-3 text-xs tracking-wider transition-colors ${
                         activeAgreementPart === part
-                          ? "bg-white/10 text-white border-b-2 border-[var(--color-au-gold)]"
+                          ? "bg-white/10 text-white border-b-2 border-[var(--color-au-accent)]"
                           : "text-white/50 hover:text-white/80 hover:bg-white/5"
                       } ${language === "zh" ? "font-chinese" : "font-serif"}`}
                     >
@@ -1993,7 +1993,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                         ol: ({ children }) => <ol className="list-decimal list-inside mb-3 space-y-1 text-white/70">{children}</ol>,
                         li: ({ children }) => <li className="text-white/70">{children}</li>,
                         hr: () => <hr className="border-white/10 my-6" />,
-                        blockquote: ({ children }) => <blockquote className="border-l-2 border-[var(--color-au-gold)]/50 pl-4 my-4 text-white/60 italic">{children}</blockquote>,
+                        blockquote: ({ children }) => <blockquote className="border-l-2 border-[var(--color-au-accent)]/50 pl-4 my-4 text-white/60 italic">{children}</blockquote>,
                         code: ({ children }) => <code className="bg-white/10 px-1.5 py-0.5 rounded text-xs">{children}</code>,
                         table: ({ children }) => <table className="w-full border-collapse mb-4 text-xs">{children}</table>,
                         th: ({ children }) => <th className="border border-white/20 px-3 py-2 text-left text-white/90 bg-white/5">{children}</th>,
@@ -2012,7 +2012,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                         type="checkbox" 
                         checked={agreeToTerms} 
                         onChange={(e) => setAgreeToTerms(e.target.checked)}
-                        className="w-4 h-4 accent-[var(--color-au-gold)] cursor-pointer"
+                        className="w-4 h-4 accent-[var(--color-au-accent)] cursor-pointer"
                       />
                     </div>
                     <span className={`text-white/70 text-sm group-hover:text-white/90 transition-colors ${language === "zh" ? "font-chinese" : "font-serif"}`}>
@@ -2028,7 +2028,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                         type="checkbox" 
                         checked={agreeToAbide} 
                         onChange={(e) => setAgreeToAbide(e.target.checked)}
-                        className="w-4 h-4 accent-[var(--color-au-gold)] cursor-pointer"
+                        className="w-4 h-4 accent-[var(--color-au-accent)] cursor-pointer"
                       />
                     </div>
                     <span className={`text-white/70 text-sm group-hover:text-white/90 transition-colors ${language === "zh" ? "font-chinese" : "font-serif"}`}>
@@ -2044,7 +2044,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                         type="checkbox" 
                         checked={agreeToConsequences} 
                         onChange={(e) => setAgreeToConsequences(e.target.checked)}
-                        className="w-4 h-4 accent-[var(--color-au-gold)] cursor-pointer"
+                        className="w-4 h-4 accent-[var(--color-au-accent)] cursor-pointer"
                       />
                     </div>
                     <span className={`text-white/70 text-sm group-hover:text-white/90 transition-colors ${language === "zh" ? "font-chinese" : "font-serif"}`}>
@@ -2059,7 +2059,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     disabled={!agreeToTerms || !agreeToAbide || !agreeToConsequences}
-                    className="w-full mt-4 py-3 bg-[var(--color-au-gold)] text-black font-display tracking-widest text-sm hover:bg-[var(--color-au-gold)]/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="w-full mt-4 py-3 bg-[var(--color-au-accent)] text-black font-display tracking-widest text-sm hover:bg-[var(--color-au-accent)]/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     {language === "zh" ? "我同意，开始对话" : "I Agree. Begin."}
                   </motion.button>
@@ -2091,7 +2091,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                   transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
                 />
                 <motion.div 
-                  className="absolute w-[600px] h-[600px] bg-[var(--color-au-gold)] rounded-full blur-[180px] opacity-20 -bottom-20 -left-20"
+                  className="absolute w-[600px] h-[600px] bg-[var(--color-au-accent)] rounded-full blur-[180px] opacity-20 -bottom-20 -left-20"
                   animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
                   transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
                 />
@@ -2197,7 +2197,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                           animate={{ opacity: [0, 1, 0] }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 1.5, ease: "easeInOut" }}
-                          className="absolute bottom-0 left-0 w-[2px] h-1/2 bg-gradient-to-t from-[var(--color-au-gold)] to-transparent"
+                          className="absolute bottom-0 left-0 w-[2px] h-1/2 bg-gradient-to-t from-[var(--color-au-accent)] to-transparent"
                         />
                         <motion.div
                           initial={{ opacity: 0, scaleY: 0 }}
@@ -2575,7 +2575,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             }}
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            className="w-full py-3 border border-[var(--color-au-gold)]/50 text-[var(--color-au-gold)] font-display tracking-widest text-sm hover:bg-[var(--color-au-gold)]/10 transition-colors"
+                            className="w-full py-3 border border-[var(--color-au-accent)]/50 text-[var(--color-au-accent)] font-display tracking-widest text-sm hover:bg-[var(--color-au-accent)]/10 transition-colors"
                           >
                             {language === "zh" ? "阅读协议与准则" : "Read Agreements & Guidelines"}
                           </motion.button>
@@ -2619,7 +2619,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             disabled={isAiResponding || isSubmitting}
-                            className="w-full mt-3 px-4 py-2.5 md:px-5 md:py-3 bg-[var(--color-au-gold)] text-black font-display tracking-widest text-xs md:text-sm hover:bg-[var(--color-au-gold)]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full mt-3 px-4 py-2.5 md:px-5 md:py-3 bg-[var(--color-au-accent)] text-black font-display tracking-widest text-xs md:text-sm hover:bg-[var(--color-au-accent)]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {isSubmitting 
                               ? (language === "zh" ? "提交中..." : "Submitting...") 
@@ -2642,14 +2642,14 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                           transition={{ delay: 0.3, type: "spring", stiffness: 150, damping: 15 }}
                           className="relative w-20 h-20 mx-auto mb-8"
                         >
-                          <div className="absolute inset-0 rounded-full border-2 border-[var(--color-au-gold)]" />
-                          <div className="absolute inset-1 rounded-full border border-[var(--color-au-gold)]/50" />
+                          <div className="absolute inset-0 rounded-full border-2 border-[var(--color-au-accent)]" />
+                          <div className="absolute inset-1 rounded-full border border-[var(--color-au-accent)]/50" />
                           <div className="absolute inset-0 flex items-center justify-center">
                             <motion.div
                               initial={{ scale: 0 }}
                               animate={{ scale: 1 }}
                               transition={{ delay: 0.5, type: "spring" }}
-                              className="w-8 h-8 rounded-full bg-[var(--color-au-gold)] flex items-center justify-center"
+                              className="w-8 h-8 rounded-full bg-[var(--color-au-accent)] flex items-center justify-center"
                             >
                               <svg className="w-5 h-5 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
@@ -2671,7 +2671,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                           initial={{ scaleX: 0 }}
                           animate={{ scaleX: 1 }}
                           transition={{ delay: 0.5, duration: 0.6 }}
-                          className="w-32 h-[1px] mx-auto my-4 bg-gradient-to-r from-transparent via-[var(--color-au-gold)]/60 to-transparent"
+                          className="w-32 h-[1px] mx-auto my-4 bg-gradient-to-r from-transparent via-[var(--color-au-accent)]/60 to-transparent"
                         />
                         
                         <motion.p 
@@ -2691,7 +2691,7 @@ Please start directly from "## §11 Phase 1 · The First Real Question" accordin
                           transition={{ delay: 0.8 }}
                           className="mt-10"
                         >
-                          <span className="text-[var(--color-au-gold)] text-2xl">✦</span>
+                          <span className="text-[var(--color-au-accent)] text-2xl">✦</span>
                         </motion.div>
                       </motion.div>
                     )}

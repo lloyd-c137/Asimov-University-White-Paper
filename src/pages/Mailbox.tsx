@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import logo from "../assets/logo.png";
+import logo from "../assets/newlogo.png";
 
-const API_URL = import.meta.env.VITE_API_URL || "/api";
+const API_URL = "http://localhost:3001/api";
 
 interface Email {
   id: string;

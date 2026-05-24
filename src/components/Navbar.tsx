@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, BookOpen, Microscope, Scroll, Newspaper } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../assets/logo.png";
+import logo from "../assets/newlogo.png";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,8 +33,8 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "About", path: "/#about", icon: <Scroll className="w-4 h-4" /> },
-    { name: "Departments", path: "/#departments", icon: <BookOpen className="w-4 h-4" /> },
-    { name: "Research", path: "/#research", icon: <Microscope className="w-4 h-4" /> },
+    { name: "Departments", path: "/departments", icon: <BookOpen className="w-4 h-4" /> },
+    { name: "Research", path: "/research", icon: <Microscope className="w-4 h-4" /> },
     { name: "News", path: "/#news", icon: <Newspaper className="w-4 h-4" /> },
   ];
 
@@ -71,28 +71,40 @@ export default function Navbar() {
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-10">
             {navLinks.map((link) => (
+            link.path.startsWith("/#") ? (
               <a
                 key={link.name}
                 href={link.path}
-                className={`flex items-center space-x-2 font-serif text-lg tracking-wide transition-colors duration-200 hover:text-[var(--color-au-gold)] ${
+                className={`flex items-center space-x-2 font-serif text-lg tracking-wide transition-colors duration-200 hover:text-[var(--color-au-accent)] ${
                   isTransparent ? "text-white" : "text-[var(--color-au-blue-dark)]"
                 }`}
               >
                 {link.name}
               </a>
-            ))}
+            ) : (
+              <Link
+                key={link.name}
+                to={link.path}
+                className={`flex items-center space-x-2 font-serif text-lg tracking-wide transition-colors duration-200 hover:text-[var(--color-au-accent)] ${
+                  isTransparent ? "text-white" : "text-[var(--color-au-blue-dark)]"
+                }`}
+              >
+                {link.name}
+              </Link>
+            )
+          ))}
             <Link
               to="/apply"
               className="group relative inline-block px-6 py-2.5 bg-[var(--color-au-blue-dark)] overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(37,99,235,0.6)]"
             >
-              <div className="absolute inset-0 border border-[var(--color-au-gold)] opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--color-au-gold)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
-              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--color-au-gold)]"></div>
-              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--color-au-gold)]"></div>
-              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--color-au-gold)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
+              <div className="absolute inset-0 border border-[var(--color-au-accent)] opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--color-au-accent)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--color-au-accent)]"></div>
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--color-au-accent)]"></div>
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--color-au-accent)] group-hover:w-full group-hover:h-full transition-all duration-500"></div>
               
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-au-gold)]/60 to-transparent skew-x-12"
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-[var(--color-au-accent)]/60 to-transparent skew-x-12"
                 animate={{ x: ["-150%", "150%"] }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.5 }}
               />
@@ -103,7 +115,7 @@ export default function Navbar() {
                 transition={{ duration: 2, repeat: Infinity }}
               />
               
-              <span className="relative z-10 font-display text-sm tracking-[0.2em] uppercase text-white group-hover:text-[var(--color-au-gold)] transition-colors duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] group-hover:drop-shadow-[0_0_15px_rgba(212,175,55,1)]">
+              <span className="relative z-10 font-display text-sm tracking-[0.2em] uppercase text-white group-hover:text-[var(--color-au-accent)] transition-colors duration-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] group-hover:drop-shadow-[0_0_15px_rgba(212,175,55,1)]">
                 Apply Now
               </span>
             </Link>
@@ -155,22 +167,34 @@ export default function Navbar() {
               
               <div className="p-4 space-y-1">
                 {navLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.path}
-                    onClick={() => handleNavClick(link.path)}
-                    className="flex items-center space-x-3 px-4 py-3 rounded-lg text-white/80 hover:bg-white/10 hover:text-[var(--color-au-gold)] transition-colors font-serif text-lg"
-                  >
-                    {link.icon}
-                    <span>{link.name}</span>
-                  </a>
+                  link.path.startsWith("/#") ? (
+                    <a
+                      key={link.name}
+                      href={link.path}
+                      onClick={() => handleNavClick(link.path)}
+                      className="flex items-center space-x-3 px-4 py-3 rounded-lg text-white/80 hover:bg-white/10 hover:text-[var(--color-au-accent)] transition-colors font-serif text-lg"
+                    >
+                      {link.icon}
+                      <span>{link.name}</span>
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.name}
+                      to={link.path}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center space-x-3 px-4 py-3 rounded-lg text-white/80 hover:bg-white/10 hover:text-[var(--color-au-accent)] transition-colors font-serif text-lg"
+                    >
+                      {link.icon}
+                      <span>{link.name}</span>
+                    </Link>
+                  )
                 ))}
                 
                 <div className="pt-4 border-t border-white/10 mt-4">
                   <Link
                     to="/apply"
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-center w-full px-6 py-4 bg-[var(--color-au-gold)] text-[var(--color-au-blue-dark)] font-display text-sm tracking-[0.15em] uppercase rounded-lg hover:bg-[var(--color-au-cream)] transition-colors"
+                    className="flex items-center justify-center w-full px-6 py-4 bg-[var(--color-au-accent)] text-[var(--color-au-blue-dark)] font-display text-sm tracking-[0.15em] uppercase rounded-lg hover:bg-[var(--color-au-cream)] transition-colors"
                   >
                     Apply Now
                   </Link>
